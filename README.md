@@ -1,1 +1,7 @@
-Just a readme.
+#Contexto
+
+#Funções atendidas
+
+#Funções não atendidas
+
+#Tecnologias ultilizadas
