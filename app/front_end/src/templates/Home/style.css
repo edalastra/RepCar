@@ -1,0 +1,14 @@
+.icon-workshop {
+    padding: 1em;
+    width: 35%;
+    max-width: 40%;
+}
+.slider .slides li img {
+    background-size:100% auto;
+    background-repeat: no-repeat;
+}
+
+.carousel { 
+   
+    max-height: 60vh;
+}
