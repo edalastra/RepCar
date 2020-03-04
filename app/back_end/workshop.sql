@@ -14,23 +14,19 @@ create table person (
     neighborhood varchar(100) not null,
     city_id int not null,
     created_at date default current_date,
-    authenticate_id int not null,
     type varchar(10) check ( type in ('admin', 'client','worker') )
 );
 
+
 create table city (
     id serial primary key,
-    name varchar(100) not null ,
+    name varchar(100) not null,
     uf char(2) not null
 );
 
-create table authenticate (
-    id serial primary key,
-    username varchar(100) not null,
-    password text not null
-);
+insert into city values (default, 'ERECHIM', 'RS');
 
-
+table city;
 create table scheduling (
     worker_id int not null,
     datatime timestamp not null,
@@ -58,5 +54,10 @@ create table vehicle (
     owner_id int not null
 );
 
-table authenticate;
-delete from authenticate;
+alter table person add foreign key (city_id) references city;
+alter table scheduling add foreign key (service_id) references service;
+alter table scheduling add foreign key (vehicle_placa) references vehicle;
+alter table vehicle add foreign key (owner_id) references person;
+
+select c.name from person p
+    join city c on p.city_id = c.id;
