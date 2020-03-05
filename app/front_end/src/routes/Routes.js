@@ -5,7 +5,8 @@ import {
     Route,
     Link
   } from "react-router-dom";
-import Home from '../templates/Home/index';
+import Home from '../templates/Home/';
+import RegisterUser from '../templates/RegisterUser';
 
 const Routes = () => {
 
@@ -13,9 +14,8 @@ const Routes = () => {
        
     <Router>
         <Switch>
-            <Route path="/home" >
-                <Home />
-            </Route>
+            <Route path="/home" component={Home} />
+            <Route path="/register" component={RegisterUser} />
         </Switch>
     </Router>
     )

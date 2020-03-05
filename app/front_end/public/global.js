@@ -23,9 +23,13 @@ $(document).ready(function(){
    })
    
    $(document).ready(function() {
-     $('#top').hide();
+     $('#top').hide();  
      $('#top').click(function(){
        $('html, body').animate({scrollTop:0}, 'slow');
        return false;
      });
    });
+
+   $(document).ready(function(){
+    $('select').formSelect();
+  });

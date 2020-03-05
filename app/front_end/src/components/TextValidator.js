@@ -1,17 +1,22 @@
 import React from 'react';
 import { ValidatorComponent } from 'react-form-validator-core';
  
+
+
 class TextValidator extends ValidatorComponent {
  
     render() {
-        const { errorMessages, validators, requiredError, validatorListener, ...rest } = this.props;
+        const { id, type, label ,errorMessages, validators, requiredError, validatorListener, ...rest } = this.props;
  
         return (
-            <div>
+            <div className="input-field">
                 <input
+                    
+                    id={id} type={type}
                     {...rest}
                     ref={(r) => { this.input = r; }}
                 />
+                <label htmlFor={id}>{label}</label>
                 {this.errorText()}
             </div>
         );
@@ -25,7 +30,11 @@ class TextValidator extends ValidatorComponent {
         }
  
         return (
-            <span class="helper-text" data-error={this.getErrorMessage()} /> 
+            <span className="red-text text-darken-4">
+                {this.getErrorMessage()}
+            </span>
+                
+           
         );
     }
 }

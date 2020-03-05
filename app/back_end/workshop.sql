@@ -16,10 +16,17 @@ create table person (
 
 
 create table city (
-    id serial primary key,
+    id int primary key,
+    name varchar(100) not null,
+    state_id int not null
+);
+
+create table state (
+    id int primary key ,
     name varchar(100) not null,
     uf char(2) not null
 );
+
 
 
 create table scheduling (
@@ -55,8 +62,17 @@ alter table person add foreign key (city_id) references city;
 alter table scheduling add foreign key (service_id) references service;
 alter table scheduling add foreign key (vehicle_placa) references vehicle;
 alter table vehicle add foreign key (owner_cpf) references person;
-
-select c.name from person p
-    join city c on p.city_id = c.id;
+alter table city add foreign key (state_id) references state;
 
 
+SELECT c.id from city c
+JOIN state s on c.state_id = s.id
+WHERE s.uf = 'RS' and c.name = 'Estação';
+
+table person;
+
+SELECT c.id, c.name FROM city c
+            JOIN state s ON c.state_id = s.id
+            WHERE s.uf = 'RS';
+
+SELECT id, name FROM state
