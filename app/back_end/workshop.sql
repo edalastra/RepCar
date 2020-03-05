@@ -74,5 +74,6 @@ table person;
 SELECT c.id, c.name FROM city c
             JOIN state s ON c.state_id = s.id
             WHERE s.uf = 'RS';
-
+select name from city where id = 3859;
+table person;
 SELECT id, name FROM state

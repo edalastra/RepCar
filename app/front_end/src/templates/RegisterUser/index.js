@@ -32,7 +32,7 @@ const RegisterUser = (props) => {
         const [cPassword, setCPassword] = useState('');
         const [telephone, setTelephone] = useState('');
         const [cep, setCep] = useState('');
-        const [city, setCity] = useState('');
+        const [cityId, setCityId] = useState('');
         const [address, setAddress] = useState('');
         const [num, setNum] = useState('');
         const [neighborhood, setNeighborhood] = useState('');
@@ -74,13 +74,32 @@ const RegisterUser = (props) => {
             })
             .then(res => {
                 const { localidade } = res.data;
-                setCity(localidade)
+                setCityId(localidade)
             })
             .catch(err => console.log(err));
         } 
 
         const submit = () => {
-
+            
+            axios.post('http://localhost:8080/api/register/user', {
+                
+                    name,
+                    cpf,
+                    email,
+                    birthDate,
+                    password,
+                    telephone,
+                    cep,
+                    cityId,
+                    address,
+                    num,
+                    neighborhood
+                
+            }, )
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => console.log(err));
         }
 
         const refForm = useRef('form');
@@ -209,7 +228,7 @@ const RegisterUser = (props) => {
                             </div>
                             <div className="input-field col s8 m4">
                             
-                                    <select>
+                                    <select onChange={event => setCityId(event.target.value)}>
                                         {citys.map(ci => (<option key={ci.id} value={ci.id}>{ci.name}</option>))}
                                     </select>
                                     <label>Cidade</label>
