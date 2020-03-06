@@ -5,7 +5,7 @@ const listUfs = () => {
     return new Promise((resolve, reject) => {
         conn.query('SELECT id, uf FROM state' , (err, res) => {
             if(err) {
-                reject(err);
+                reject({status:400,msg:err});
                 return;
             }
             resolve(res.rows);
@@ -20,7 +20,7 @@ const listCitys = (uf) => {
             JOIN state s ON c.state_id = s.id
             WHERE s.uf = $1`, [uf], (err, res) => {
                 if(err) {
-                    reject(err);
+                    reject({status:500,msg:err});
                     return;
                 }
                 resolve(res.rows);

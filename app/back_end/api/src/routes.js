@@ -1,4 +1,4 @@
-const {createUser} = require('./controllers/UserController');
+const {createUser, userAuthenticate} = require('./controllers/UserController');
 const {listUfs, listCitys} = require('./controllers/CityController');
 
 
@@ -21,6 +21,13 @@ module.exports = (app) => {
         listCitys(req.params.uf)
             .then(ufs => res.json(ufs))
             .catch(err => res.json(err));
-    })
+    });
+    app.post('/api/authenticate', (req, res) => {
+
+        userAuthenticate(req.body)
+            .then(token => res.json(token))
+            .catch(err => res.status(err.status).send(err.msg));
+
+    });
 
 }

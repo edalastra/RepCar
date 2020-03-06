@@ -10,20 +10,7 @@ import M from "materialize-css";
 
 const RegisterUser = (props) => {
 
-        const [user, setUser] = useState({ 
-            name:'',
-            cpf:'',
-            email:'',
-            birthDate:'',
-            password:'',
-            telephone:'',
-            cep:'',
-            city:'',
-            uf:'',
-            address:'',
-            num:'',
-            neighborhood:''
-        });
+
         const [name, setName] = useState('');
         const [cpf, setCpf] = useState('');
         const [email, setEmail] = useState('');
@@ -54,7 +41,7 @@ const RegisterUser = (props) => {
                 setUFs(res.data);
                 M.AutoInit();
             })
-            .catch(err => console.log(err));
+            .catch(err => console.log(err.response));
         }, [])
 
         const getCitys = event =>  {
@@ -65,7 +52,7 @@ const RegisterUser = (props) => {
                 setCitys(res.data);
                 M.AutoInit();
             })
-            .catch(err => console.log(err));
+            .catch(err => console.log(err.response));
         }
 
         const getAddress = event => {
@@ -76,7 +63,7 @@ const RegisterUser = (props) => {
                 const { localidade } = res.data;
                 setCityId(localidade)
             })
-            .catch(err => console.log(err));
+            .catch(err => console.log(err.response));
         } 
 
         const submit = () => {
@@ -93,8 +80,8 @@ const RegisterUser = (props) => {
                     cityId,
                     address,
                     num,
-                    neighborhood
-                
+                    neighborhood,
+                    type:'client'
             }, )
             .then(res => {
                 console.log(res);
