@@ -1,14 +1,30 @@
 const {createUser, userAuthenticate} = require('./controllers/UserController');
+const {createService, listVehicles} = require('./controllers/ServiceController');
 const {listUfs, listCitys} = require('./controllers/CityController');
 
 
 module.exports = (app) => {
     app.post('/api/register/user', (req, res) => {
-        console.log(req.body)
+        
 
         createUser(req.body)
             .then(result => res.json(result))
-            .catch(err => res.status(400).json(err))
+            .catch(err => res.status(err.status).json(err.msg))
+    });
+
+    app.post('/api/register/service', (req, res) => {
+        
+        createService(req.body)
+            .then(result => res.json(result))
+            .catch(err => res.status(err.status).json(err.msg))
+    });
+
+    
+    app.post('/api/list/vehicles', (req, res) => {
+
+        listVehicles(req.body.userId)
+            .then(result => res.json(result))
+            .catch(err => res.status(err.status).json(err.msg));
     });
 
     app.get('/api/ufs', (req, res) => {

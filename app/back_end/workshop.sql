@@ -31,13 +31,12 @@ create table state (
 
 
 create table scheduling (
-    worker_id int not null,
+    id serial primary key ,
     datatime timestamp not null,
     description text not null,
     ps text,
     service_id int not null,
-    vehicle_placa char(7) not null check ( vehicle_placa ~ '^[A-Z]{3}[A-Z0-9]{4}$'),
-    constraint pk primary key (worker_id, datatime)
+    vehicle_id int not null
 );
 
 create table service (
@@ -45,22 +44,26 @@ create table service (
     area varchar(10) check ( area in ('motor', 'eletrica', 'suspenção')),
     type varchar(10) check ( type in ('preventiva', 'corretiva')),
     name varchar(100) not null,
-    description text not null,
+    description text,
     base_value money
 );
 
-
+table service;
 create table vehicle (
-    placa char(7) not null check ( placa ~ '^[A-Z]{3}[A-Z0-9]{4}$') primary key,
+    id serial primary key ,
+    placa char(7) not null check ( placa ~ '^[A-Z]{3}[A-Z0-9]{4}$') unique ,
     brand varchar(30) not null ,
     model varchar(30) not null ,
     yaer char(4) not null,
     owner_id int not null
 );
+drop table vehicle cascade ;
+
+insert into vehicle (placa, brand, model, yaer, owner_id) values ('IKP3J96','Fiat','Siena','2002',1);
 
 alter table person add foreign key (city_id) references city;
 alter table scheduling add foreign key (service_id) references service;
-alter table scheduling add foreign key (vehicle_placa) references vehicle;
+alter table scheduling add foreign key (vehicle_id) references vehicle;
 alter table vehicle add foreign key (owner_id) references person;
 alter table city add foreign key (state_id) references state;
 
@@ -75,5 +78,5 @@ SELECT c.id, c.name FROM city c
             JOIN state s ON c.state_id = s.id
             WHERE s.uf = 'RS';
 select name from city where id = 3859;
-table person;
+table vehicle;
 SELECT id, name FROM state

@@ -8,6 +8,7 @@ import {
 import Home from '../templates/Home/';
 import RegisterUser from '../templates/RegisterUser';
 import Login from '../templates/Login';
+import Scheduling from '../templates/Scheduling';
 
 const Routes = () => {
 
@@ -18,6 +19,7 @@ const Routes = () => {
             <Route path="/home" component={Home} />
             <Route path="/register" component={RegisterUser} />
             <Route path="/login" component={Login} />
+            <Route path="/logged/client/scheduling" component={Scheduling} />
         </Switch>
     </Router>
     )

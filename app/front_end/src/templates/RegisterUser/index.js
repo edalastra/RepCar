@@ -34,7 +34,7 @@ const RegisterUser = (props) => {
        
         useEffect(()=> {
             axios.get('http://localhost:8080/api/ufs', {
-                headers: {'Content-Type':'json/application'}
+                headers: {'Content-Type':'application/json'}
             })
             .then(res => {
                 
@@ -46,7 +46,7 @@ const RegisterUser = (props) => {
 
         const getCitys = event =>  {
             axios.get('http://localhost:8080/api/citys/'+event.target.value, {
-                headers: {'Content-Type':'json/application'}
+                headers: {'Content-Type':'application/json'}
             })
             .then(res => {
                 setCitys(res.data);
@@ -57,7 +57,7 @@ const RegisterUser = (props) => {
 
         const getAddress = event => {
             axios.get(`https://viacep.com.br/ws/${event.target.value}/json/`, {
-                headers: {'Content-Type':'json/application'}
+                headers: {'Content-Type':'application/json'}
             })
             .then(res => {
                 const { localidade } = res.data;
@@ -69,6 +69,8 @@ const RegisterUser = (props) => {
         const submit = () => {
             
             axios.post('http://localhost:8080/api/register/user', {
+                headers: {'Content-Type':'application/json'}
+            }, {
                 
                     name,
                     cpf,
