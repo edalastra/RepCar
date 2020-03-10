@@ -20,7 +20,7 @@ const Home = () => {
         <>
             <div className="carousel carousel-slider center">
             <div className="carousel-fixed-item center">
-              <Link to="/register" className="btn waves-effect white white-text red darken-4">agende um horario</Link>
+              <Link to="/login" className="btn waves-effect white white-text red darken-4">agende um horario</Link>
             </div>
             <div className="carousel-item white-text" href="https://br.freepik.com/fotos-vetores-gratis/carro">
                 <img src="{carousel1}" alt="" className="responsive-img" /> 

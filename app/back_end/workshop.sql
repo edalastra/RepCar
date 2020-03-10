@@ -42,11 +42,12 @@ create table scheduling (
 create table service (
     id serial primary key ,
     area varchar(10) check ( area in ('motor', 'eletrica', 'suspenção')),
-    type varchar(10) check ( type in ('preventiva', 'corretiva')),
+    type_id int not null ,
     name varchar(100) not null,
     description text,
     base_value money
 );
+drop table service;
 
 table service;
 create table vehicle (
