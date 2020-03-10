@@ -52,31 +52,23 @@ table service;
 create table vehicle (
     id serial primary key ,
     placa char(7) not null check ( placa ~ '^[A-Z]{3}[A-Z0-9]{4}$') unique ,
-    brand varchar(30) not null ,
-    model varchar(30) not null ,
-    yaer char(4) not null,
+    model_id int not null ,
+    year char(4) not null,
     owner_id int not null
 );
 drop table vehicle cascade ;
 
-insert into vehicle (placa, brand, model, yaer, owner_id) values ('IKP3J96','Fiat','Siena','2002',1);
+insert into vehicle (placa, model_id, year, owner_id) values ('IKP3J96',194,'2002',1);
 
 alter table person add foreign key (city_id) references city;
 alter table scheduling add foreign key (service_id) references service;
 alter table scheduling add foreign key (vehicle_id) references vehicle;
 alter table vehicle add foreign key (owner_id) references person;
+alter table model  add foreign key (brand_id) references brand ;
+alter table vehicle add foreign key (model_id) references model;
 alter table city add foreign key (state_id) references state;
 
 
-SELECT c.id from city c
-JOIN state s on c.state_id = s.id
-WHERE s.uf = 'RS' and c.name = 'Estação';
 
-table person;
 
-SELECT c.id, c.name FROM city c
-            JOIN state s ON c.state_id = s.id
-            WHERE s.uf = 'RS';
-select name from city where id = 3859;
-table vehicle;
-SELECT id, name FROM state
+SELECT * FROM model WHERE brand_id = 1;

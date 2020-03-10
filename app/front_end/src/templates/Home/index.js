@@ -1,5 +1,7 @@
 import React from 'react';
 import './style.css';
+import { Link } from 'react-router-dom';
+
 // import carousel1 from './img/carousel-1.jpg';
 // import carousel2 from './img/carousel-2.jpg';
 // import engine from './img/engine.jpg';
@@ -18,7 +20,7 @@ const Home = () => {
         <>
             <div className="carousel carousel-slider center">
             <div className="carousel-fixed-item center">
-              <a className="btn waves-effect white white-text red darken-4">agende um horario</a>
+              <Link to="/register" className="btn waves-effect white white-text red darken-4">agende um horario</Link>
             </div>
             <div className="carousel-item white-text" href="https://br.freepik.com/fotos-vetores-gratis/carro">
                 <img src="{carousel1}" alt="" className="responsive-img" /> 

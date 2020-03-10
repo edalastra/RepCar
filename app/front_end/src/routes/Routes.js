@@ -3,7 +3,8 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
+    Link,
+    Redirect
   } from "react-router-dom";
 import Home from '../templates/Home/';
 import RegisterUser from '../templates/RegisterUser';
@@ -16,6 +17,7 @@ const Routes = () => {
        
     <Router>
         <Switch>
+            <Redirect exact from="/" to="/home" />
             <Route path="/home" component={Home} />
             <Route path="/register" component={RegisterUser} />
             <Route path="/login" component={Login} />

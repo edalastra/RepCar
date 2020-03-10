@@ -1,6 +1,6 @@
 const app = require('./src/config/express-config');
 const hosts = require('./src/config/hosts.js');
-const routes = require('./src/routes');
+const routes = require('./src/routes/index');
 const { PORT } = hosts
 
 routes(app);
