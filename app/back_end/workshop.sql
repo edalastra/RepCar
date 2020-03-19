@@ -75,5 +75,5 @@ alter table city add foreign key (state_id) references state;
 
 
 delete from vehicle;
-
+table person;
 table vehicle;
