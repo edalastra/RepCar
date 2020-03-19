@@ -5,9 +5,7 @@ const vehicleRouter = require('./VehicleRouter');
 
 
 module.exports = app => {
-    app.get('/',(req, res) => {
-        return 'opa'
-    })
+
     userRouter(app);
     cityRouter(app);
     serviceRouter(app);
