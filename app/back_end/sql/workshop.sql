@@ -15,7 +15,6 @@ create table person (
     type varchar(10) check ( type in ('admin', 'client','worker') )
 );
 
-drop table person cascade ;
 create table city (
     id int primary key,
     name varchar(100) not null,
@@ -59,9 +58,18 @@ create table vehicle (
     description varchar(100),
     owner_id int not null
 );
-insert into vehicle (placa, model_id, year, owner_id) values ('IKP3J96',194,'2002',1);
-insert into service_type values (1,'preventiva'), (2,'corretiva');
-insert into service_area values (1,'motor'), (2,'eletrica'), (3,'suspenção'),(4,'escapamento');
+CREATE TABLE brand(
+   id INTEGER  NOT NULL PRIMARY KEY ,
+  name VARCHAR(21) NOT NULL
+);
+
+CREATE TABLE model(
+   id      INTEGER  NOT NULL PRIMARY KEY
+  ,brand_id INTEGER  NOT NULL
+  ,name    VARCHAR(21) NOT NULL
+);
+
+
 
 alter table person add foreign key (city_id) references city;
 alter table scheduling add foreign key (vehicle_id) references vehicle;
@@ -72,7 +80,9 @@ alter table model  add foreign key (brand_id) references brand ;
 alter table vehicle add foreign key (model_id) references model;
 alter table city add foreign key (state_id) references state;
 
-
+insert into vehicle (placa, model_id, year, owner_id) values ('IKP3J96',194,'2002',1);
+insert into service_type values (1,'preventiva'), (2,'corretiva');
+insert into service_area values (1,'motor'), (2,'eletrica'), (3,'suspenção'),(4,'escapamento');
 
 delete from vehicle;
 table person;

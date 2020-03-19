@@ -2,16 +2,16 @@
 const {createService,createScheduling} = require('../controllers/ServiceController');
 
 
-module.exports = (app) => {
+module.exports = (router) => {
 
-    app.post('/api/register/service', (req, res) => {
+    router.post('/api/service/register', (req, res) => {
         
         createService(req.body)
             .then(result => res.json(result))
             .catch(err => res.status(err.status).json(err.msg))
     });
 
-    app.post('/api/create/scheduling', (req, res) => {
+    router.post('/api/service/scheduling', (req, res) => {
         createScheduling(req.body)
             .then(result => res.json(result))
             .catch(err => res.status(err.status).json(err.msg))
