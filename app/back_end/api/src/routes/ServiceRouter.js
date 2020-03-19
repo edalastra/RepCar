@@ -1,21 +1,20 @@
 
 const {createService,createScheduling} = require('../controllers/ServiceController');
 
+const router = require('express').Router();
 
-module.exports = (app) => {
 
-    app.post('/api/register/service', (req, res) => {
+    router.post('/register', (req, res) => {
         
         createService(req.body)
             .then(result => res.json(result))
             .catch(err => res.status(err.status).json(err.msg))
     });
 
-    app.post('/api/create/scheduling', (req, res) => {
+    router.post('/scheduling', (req, res) => {
         createScheduling(req.body)
             .then(result => res.json(result))
             .catch(err => res.status(err.status).json(err.msg))
     });
 
-
-}
+module.exports = router;

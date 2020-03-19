@@ -1,18 +1,18 @@
 const {listUfs, listCitys} = require('../controllers/CityController');
+const router = require('express').Router();
 
 
-module.exports = (app) => {
 
-    app.get('/api/ufs', (req, res) => {
+    router.get('/uf/list', (req, res) => {
        
         listUfs()
             .then(ufs => res.json(ufs))
             .catch(err => res.json(err));
     });
-    app.get('/api/citys/:uf', (req, res) => {
+    router.get('/list/:uf', (req, res) => {
         listCitys(req.params.uf)
             .then(ufs => res.json(ufs))
             .catch(err => res.json(err));
     });
 
-}
+module.exports = router;

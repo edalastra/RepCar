@@ -4,5 +4,4 @@ const routes = require('./src/routes/index');
 const { PORT } = hosts
 
 routes(app);
-
 app.listen(PORT, () => console.log('Service running in port '+ PORT));

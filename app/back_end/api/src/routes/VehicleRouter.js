@@ -1,23 +1,23 @@
 const { listVehiclesRegistred, listBrands, listModels } = require('../controllers/VehicleController');
+const router = require('express').Router();
 
 
-module.exports = (app) => {
 
-    app.post('/api/list/vehicles', (req, res) => {
+    router.post('/list', (req, res) => {
 
         listVehiclesRegistred(req.body.userId)
             .then(result => res.json(result))
             .catch(err => res.status(err.status).json(err.msg));
     });
 
-    app.get('/api/list/brands', (req, res) => {
+    router.get('/brands/list', (req, res) => {
 
         listBrands()
             .then(result => res.json(result))
             .catch(err => res.status(err.status).json(err.msg));
     });
 
-    app.get('/api/list/models/:brandId', (req, res) => {
+    router.get('/models/list/:brandId', (req, res) => {
 
 
         listModels(req.params.brandId)
@@ -25,4 +25,4 @@ module.exports = (app) => {
             .catch(err => res.status(err.status).json(err.msg));
     });
 
-}
+module.exports = router;

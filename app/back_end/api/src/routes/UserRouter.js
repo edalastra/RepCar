@@ -1,27 +1,32 @@
-const {createUser, userAuthenticate} = require('../controllers/UserController');
+const {createUser, userAuthenticate, uniqueCpf} = require('../controllers/UserController');
 const auth = require('../middleware/auth');
+const router = require('express').Router();
 
 
-module.exports = (app) => {
-    app.post('/api/register/user',  (req, res) => {
-        
-
+    router.post('/register',  (req, res) => {
         createUser(req.body)
-            .then(result => res.json(result))
+            .then(result => res.status(201).json(result))
             .catch(err => res.status(err.status).json(err.msg))
     });
 
 
 
-    app.post('/api/authenticate', (req, res) => {
+    router.post('/authenticate', (req, res) => {
 
         userAuthenticate(req.body)
             .then(token => res.json(token))
             .catch(err => res.status(err.status).send(err.msg));
 
     });
+    
+    router.post('/uniquecpf', (req, res) => {
+        uniqueCpf(req.body.cpf)
+            .then(resp => res.json(resp))
+            .catch(err => res.status(err.status).send(err.msg));
+    });
 
-    app.post('/api/token', auth, (req, res) => {
+    router.post('/api/token', auth, (req, res) => {
         res.send('ss')
-    })
-}
+    });
+
+module.exports = router;

@@ -14,7 +14,7 @@ const Login = (props) => {
     const [error, setError] = useState('');
 
     const submit = () => {
-        axios.post('http://localhost:8080/api/authenticate', {email, password})
+        axios.post('http://localhost:8080/api/user/authenticate', {email, password})
             .then(res => {
                 login(res.data.token);
                 props.history.replace('/logged/'+res.data.user.type)
