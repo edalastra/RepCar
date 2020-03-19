@@ -29,11 +29,12 @@ const RegisterUser = (props) => {
 
         useEffect(() => {
             ValidatorForm.addValidationRule('confirmPassword', (value) => value === password); 
-            ValidatorForm.addValidationRule('isCpf', (value) => cpfValidator.isValid(value)); 
+            ValidatorForm.addValidationRule('isCpf', (value) => cpfValidator.isValid(value));
+            ValidatorForm.addValidationRule('uniqueCpf', (value) => unqueCpf(value)); 
         },[password]);
        
         useEffect(()=> {
-            axios.get('http://localhost:8080/api/ufs', {
+            axios.get('http://localhost:8080/api/city/uf/list', {
                 headers: {'Content-Type':'application/json'}
             })
             .then(res => {
@@ -45,7 +46,7 @@ const RegisterUser = (props) => {
         }, [])
 
         const getCitys = event =>  {
-            axios.get('http://localhost:8080/api/citys/'+event.target.value, {
+            axios.get('http://localhost:8080/api/city/list/'+event.target.value, {
                 headers: {'Content-Type':'application/json'}
             })
             .then(res => {
@@ -66,12 +67,16 @@ const RegisterUser = (props) => {
             .catch(err => console.log(err.response));
         } 
 
+        const unqueCpf = value => 
+            axios.post('http://localhost:8080/api/user/uniquecpf',{cpf:value},{
+                headers: {'Content-Type':'application/json'}
+            }).then(res => res.data.unque)
+            .catch(err => console.log(err.response));
+        
+
         const submit = () => {
             
-            axios.post('http://localhost:8080/api/register/user', {
-                headers: {'Content-Type':'application/json'}
-            }, {
-                
+            axios.post('http://localhost:8080/api/user/register',{
                     name,
                     cpf,
                     email,
@@ -84,6 +89,8 @@ const RegisterUser = (props) => {
                     num,
                     neighborhood,
                     type:'client'
+            },  {
+                headers: {'Content-Type':'application/json'}
             }, )
             .then(res => {
                 console.log(res);
@@ -126,8 +133,9 @@ const RegisterUser = (props) => {
                                     type="text" className="validate" label="CPF"
                                     onChange={event => setCpf(event.target.value)}
                                     value={cpf}
-                                    validators={['required','isCpf']}
-                                    errorMessages={['Este campo é obrigatório','CPF inválido']}
+                                    validators={['required','isCpf','uniqueCpf']}
+                                    errorMessages={['Este campo é obrigatório','CPF inválido', 
+                                    'Este CPF já está vinculado à uma conta']}
                                 />
                                
                             </div>

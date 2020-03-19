@@ -31,7 +31,7 @@ const Scheduling = (props) => {
         && value.split(':')[0] <= 18 );
     
 
-        axios.post('http://localhost:8080/api/list/vehicles', {userId:1}, {
+        axios.post('http://localhost:8080/api/vehicle/list', {userId:1}, {
             headers: {'Content-Type':'application/json'}
         })
         .then(res => {
@@ -43,7 +43,7 @@ const Scheduling = (props) => {
 
 
     const listBrands = () => {
-        axios.get('http://localhost:8080/api/list/brands', {
+        axios.get('http://localhost:8080/api/vehicle/brands/list', {
           headers: {'Content-Type':'application/json'}
       })
       .then(res => {
@@ -56,7 +56,7 @@ const Scheduling = (props) => {
     const listModels = event => {
 
       console.log(event.target.value)
-      axios.get('http://localhost:8080/api/list/models/'+event.target.value, {
+      axios.get('http://localhost:8080/api/vehicle/models/list'+event.target.value, {
         headers: {'Content-Type':'application/json'}
     })
     .then(res => {

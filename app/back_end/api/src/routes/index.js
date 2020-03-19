@@ -6,9 +6,9 @@ const serviceRouter = require('./ServiceRouter');
 const vehicleRouter = require('./VehicleRouter');
 
 
-module.exports = () => {
-    userRouter(router);
-    cityRouter(router);
-    serviceRouter(router);
-    vehicleRouter(router);
+module.exports = app => {
+    app.use('/api/user', userRouter);
+    app.use('/api/city',cityRouter);
+    app.use('/api/service',serviceRouter);
+    app.use('/api/vehicle', vehicleRouter);
 };
