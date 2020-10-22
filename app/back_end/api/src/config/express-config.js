@@ -2,12 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const cors = require('cors')
-hosts = require('./hosts');
-const {ORIGIN_HOST}  = hosts;
 
 
 
-app.use(cors({origin: ORIGIN_HOST,optionsSuccessStatus: 200}))
+app.use(cors({origin: '*',optionsSuccessStatus: 200}))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(function (req, res, next) {
