@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const dbconfig = require('../config/database');
 
-const { Vehicle, VehicleModel, VehicleBrand } = require('../models/Vehicle');
+const Vehicle, VehicleModel, VehicleBrand } = require('../models/Vehicle');
 
 const connection = new Sequelize(dbconfig);
 

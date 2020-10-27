@@ -2,34 +2,45 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-      return queryInterface.createTable('vehicles', { 
+      return queryInterface.createTable('workers', { 
         id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
           autoIncrement: true,
           allowNull: false,
         },
-        model_id: {
+        user_id: {
           type: Sequelize.INTEGER,
           allowNull: false,
         },
-        owner_id: {
-          type: Sequelize.INTEGER,
+        CLT: {
+          type: Sequelize.STRING,
           allowNull: false,
-        },
-        plate: {
-          type: Sequelize.STRING(7),
-          allowNull: false,
-          validate: {
-            id: '^[a-zA-Z]{3}[0-9][A-Za-z0-9][0-9]{2}$'
-          }
-        },
-        year: {
-          type: Sequelize.STRING(4),
           validate: {
             isNumeric: true,
-            min: '1950',
-          }
+          },
+        },
+        PIS: {
+          type: Sequelize.STRING,
+          allowNull: false,
+          validate: {
+            isNumeric: true,
+          },
+        },
+        genre: {
+          type: Sequelize.STRING,
+          allowNull: false,
+          validate: {
+            isIn: [['M','F']]
+          },
+        },
+        hourValue: {
+          type: Sequelize.DOUBLE,
+          allowNull: false,
+        },
+        admission: {
+          type: Sequelize.DATE,
+          allowNull: false,
         },
         created_at: {
           type: Sequelize.DATE,
@@ -43,6 +54,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-      return queryInterface.dropTable('vehicles');
+      return queryInterface.dropTable('workers');
   }
 };

@@ -7,7 +7,6 @@ module.exports = {
           id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
-            autoIncrement: true,
             allowNull: false,
           },
           name: {
@@ -16,17 +15,6 @@ module.exports = {
           },
           brand_id: {
             type: Sequelize.INTEGER,
-            allowNull: false,
-            references: { model: 'vehicle_brands', key: 'id' },
-            onUpdate: 'CASCADE',
-            onDelete: 'RESTRICT',
-          },
-          created_at: {
-            type: Sequelize.DATE,
-            allowNull: false
-          },
-          updated_at: {
-            type: Sequelize.DATE,
             allowNull: false,
           },
         });
