@@ -1,5 +1,4 @@
-
-Esta é uma applicação web, e se propõem a atender as demandas internas e externas de uma oficina mecânica, nesse projeto a oficina recebeu o nome fictíco de RepCar.
+Esta é uma aplicação web, e se propõem a atender as demandas internas e externas de uma oficina mecânica, nesse projeto a oficina recebeu o nome fictíco de RepCar.
 ### Funcionalidades
 A aplicação tem como objetivo atender os clientes, funcionáros e gestores da oficina, oferecendo as seguintes funcionalidades:
 - 	Agendamento de horário pela parte do cliente
