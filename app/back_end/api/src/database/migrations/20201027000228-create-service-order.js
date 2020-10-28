@@ -4,7 +4,7 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
       return queryInterface.createTable('service_order', { 
         date:{
-          type: Sequelize.DATE,
+          type: Sequelize.DATEONLY,
           primaryKey: true,
           allowNull: false,
         },
@@ -20,17 +20,10 @@ module.exports = {
           type: Sequelize.INTEGER,
           primaryKey: true,
           allowNull: false,
-          references: { model: 'workers', key: 'id' },
-          onUpdate: 'CASCADE',
-          onDelete: 'CASCADE'
         },
         service_id: {
           type: Sequelize.INTEGER,
-          primaryKey: true,
           allowNull: false,
-          references: { model: 'services', key: 'id' },
-          onUpdate: 'CASCADE',
-          onDelete: 'CASCADE',
         }
       
       });

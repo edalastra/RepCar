@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('citys', [{
+    return queryInterface.bulkInsert('cities', [{
       "id": "1",
       "name": "Afonso Cláudio",
       "state_id": "8"
@@ -27821,6 +27821,6 @@ module.exports = {
 
   down: (queryInterface, Sequelize) => {
 
-    return queryInterface.sequelize.query(`DELETE FROM citys CASCADE;`);
+    return queryInterface.sequelize.query(`DELETE FROM cities CASCADE;`);
   }
 };

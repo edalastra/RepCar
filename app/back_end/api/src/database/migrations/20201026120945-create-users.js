@@ -16,6 +16,7 @@ module.exports = {
         email: {
           type: Sequelize.STRING,
           allowNull: false,
+          unique: true,
           validate: {
             isEmail: true,
           },
@@ -34,14 +35,15 @@ module.exports = {
         cpf: {
           type: Sequelize.STRING,
           allowNull: false,
+          unique: true,
           validate: {
             isNumeric: true,
             min: '11',
             max: '11'
           },
         },
-        birthDate: {
-          type: Sequelize.DATE,
+        birth_date: {
+          type: Sequelize.DATEONLY,
           allowNull: false,
         },
         password: {
@@ -67,6 +69,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-      return queryInterface.dropTable('users');
+      return queryInterface.dropTable('users', {cascade: true});
   }
 };

@@ -3,8 +3,8 @@ const { Model, DataTypes } = require('sequelize');
 class Vehicle extends Model {
     static init(connection) {
        super.init({
-           plate: DataTypes.STRING(7),
-           year: DataTypes.STRING(4),
+           plate: DataTypes.STRING,
+           year: DataTypes.STRING,
        }, {
            sequelize: connection
        }); 
@@ -12,6 +12,7 @@ class Vehicle extends Model {
 
     static associate(models) {
         this.belongsTo(models.VehicleModel, { foreignKey: 'model_id', as: 'model_vehicle' } );
+        this.belongsTo(models.User, {foreignKey:'owner_id', as: 'owner'})
     }
 }
 

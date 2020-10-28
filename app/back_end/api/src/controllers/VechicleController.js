@@ -35,13 +35,6 @@ const vehiclesModel = {
         });
         return res.json(brand);
     },
-    async store(req, res) {
-        const { plate, year } = req.body;
-
-        const model = await VehicleModel.create({ plate, year });
-
-        return res.json(model)
-   }
 }
 
 
@@ -51,13 +44,6 @@ const vehiclesBrand = {
 
         return res.json(brand);
     },
-    async store(req, res) {
-        const { plate, year } = req.body;
-
-        const brand = await VehicleBrand.create({ plate, year });
-
-        return res.json(brand)
-   }
 }
 
 module.exports = { vehicles, vehiclesBrand, vehiclesModel }

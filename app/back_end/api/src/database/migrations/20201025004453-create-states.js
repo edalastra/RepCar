@@ -13,10 +13,16 @@ module.exports = {
           allowNull: true,
         },
         uf:{
-          type: Sequelize.STRING(2),
+          type: Sequelize.STRING,
           allowNull: false,
           unique: true
-        }
+        },
+        created_at: {
+          type: Sequelize.DATE,
+        },
+        updated_at: {
+          type: Sequelize.DATE,
+        },
       });
   },
 

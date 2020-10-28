@@ -2,19 +2,21 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-      return queryInterface.changeColumn('addresses', 'city_id',{
+      return queryInterface.changeColumn('service_order', 'service_id',{
         type: Sequelize.INTEGER,
+        primaryKey: true,
         allowNull: false,
-        references: { model: 'cities', key: 'id' },
+        references: { model: 'services', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       });
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.changeColumn('addresses', 'city_id',{
+    return queryInterface.changeColumn('service_order', 'service_id',{
       type: Sequelize.INTEGER,
-      allowNull: false,
+        primaryKey: true,
+        allowNull: false,
     });
   }
 };
