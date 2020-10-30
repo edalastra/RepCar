@@ -1,23 +1,18 @@
-const jwt = require("jsonwebtoken");
-const { promisify } = require("util");
+const { User, AuthToken } = require('../models');
 
-module.exports = async (req, res, next) => {
-  const authHeader = req.headers.authorization;
+module.exports = async function(req, res, next) {
 
-  if (!authHeader) {
-    return res.status(401).send({ error: "No token provided" });
+  const token =
+    req.cookies.auth_token || req.headers.authorization;
+
+
+  if (token) {
+    const authToken = await AuthToken.find(
+      { where: { token }, include: User }
+    );
+    if (authToken) {
+      req.user = authToken.User;
+    }
   }
-
-  const [scheme, token] = authHeader.split(" ");
-  console.log(token)
-
-  try {
-    const decoded = await promisify(jwt.verify)(token, "secret");
-
-    req.userId = decoded.id;
-
-    return next();
-  } catch (err) {
-    return res.status(401).send({ error: "Token invalid" });
-  }
-};
+  next();
+}

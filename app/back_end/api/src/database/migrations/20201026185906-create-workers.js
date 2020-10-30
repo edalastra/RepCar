@@ -34,7 +34,7 @@ module.exports = {
             isIn: [['M','F']]
           },
         },
-        hourValue: {
+        hour_value: {
           type: Sequelize.DOUBLE,
           allowNull: false,
         },
