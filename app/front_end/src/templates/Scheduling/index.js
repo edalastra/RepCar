@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import TextValidator from '../../components/TextValidator';
+import InputComponent from '../../components/InputComponent';
 import axios from 'axios';
 import M from 'materialize-css';
 import $ from 'jquery';
@@ -98,7 +98,7 @@ const Scheduling = (props) => {
         <ValidatorForm className="col s12" onSubmit={submit}>
           <div className="row">
             <div className="col m6 s12 ">
-              <TextValidator 
+              <InputComponent 
                 id="date" type="date"
                 className="validate" label="Data"
                 onChange={event => setDate(event.target.value)}
@@ -109,7 +109,7 @@ const Scheduling = (props) => {
                 'Desculpe, não atendemos no domingo']} />
             </div>
             <div className=" col m6 s12 ">
-              <TextValidator 
+              <InputComponent 
                 id="time" type="time"
                 className="validate" label="Hora"
                 onChange={event => setTime(event.target.value)}
@@ -166,7 +166,7 @@ const Scheduling = (props) => {
             <div className="row">
               <div className="col m2 s4 ">
 
-                <TextValidator 
+                <InputComponent 
                 id="year" type="number"
                 name="year"
                 className="validate" label="Ano"
@@ -176,7 +176,7 @@ const Scheduling = (props) => {
                 errorMessages={newVehicle ? ['Este campo é obrigatório'] : []} />
               </div>
               <div className="col m4 s8 ">
-              <TextValidator 
+              <InputComponent 
                 id="placa" type="text"
                 name="placa"
                 className="validate" label="Placa"
@@ -215,7 +215,7 @@ const Scheduling = (props) => {
           <div className="row">
             <div className="col s12">
 
-              <TextValidator 
+              <InputComponent 
                 id="problem-description" type="text"
                 className="validate materialize-textarea" label="Descrição do(s) problema(s)"
                 onChange={event => setDescription(event.target.value)}

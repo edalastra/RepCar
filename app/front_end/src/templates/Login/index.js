@@ -1,7 +1,8 @@
 import React, { useRef, useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
+//import { API } from '../../config';
 import { login } from '../../auth';
-import TextValidator from '../../components/TextValidator';
+import InputComponent from '../../components/InputComponent';
 import axios from 'axios';
 import './style.css';
 import ValidatorForm from 'react-form-validator-core/lib/ValidatorForm';
@@ -14,15 +15,16 @@ const Login = (props) => {
     const [error, setError] = useState('');
 
     const submit = () => {
-        axios.post('http://localhost:8080/api/user/authenticate', {email, password})
-            .then(res => {
-                login(res.data.token);
-                props.history.replace('/logged/'+res.data.user.type)
-            })
-            .catch(err => {
-                setError(err.response.data)
-                $('.danger').removeClass('hide')
-            });
+        // axios.post(API + '/user/authenticate', {email, password})
+        //     .then(res => {
+        //         const { authToken, user } = res.data;
+        //         login(authToken.token);
+        //         props.history.replace(`/logged/${user.type}/${user.id}`)
+        //     })
+        //     .catch(err => {
+        //         setError(err.response.data)
+        //         $('.danger').removeClass('hide')
+        //     });
     }
 
     const { errorMessages, validators, requiredError, validatorListener, value, ...rest } = props;
@@ -49,7 +51,7 @@ const Login = (props) => {
                     <div className='row '>
                     
                         <div className='input-field col s12'>
-                        <TextValidator 
+                        <InputComponent 
                                     id="email" name="email" type="text" 
                                     label="E-mail" className="validate"
                                     onChange={event => setEmail(event.target.value)}
@@ -62,7 +64,7 @@ const Login = (props) => {
                     
                     <div className='row'>
                         <div className='input-field col s12'>
-                        <TextValidator 
+                        <InputComponent 
                                     id="password" name="password" type="password" 
                                     label="Senha" className="validate"
                                     onChange={event => setPassword(event.target.value)}
@@ -89,7 +91,7 @@ const Login = (props) => {
               </div>
               </div>
                 <div className="center">
-                   <p>Não possui conta? <a>Cadastre-se</a></p>
+                   <p>Não possui conta? <Link to='/register'>Cadastre-se</Link></p>
               </div>
             </>             
     )

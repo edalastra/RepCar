@@ -1,12 +1,15 @@
 const express = require('express');
 const { vehicles, vehiclesModel, vehiclesBrand } = require('./controllers/VechicleController');
 const UserController = require('./controllers/UserController');
+const { AddressController, CityController, StateController } = require('./controllers/AdressController');
 
 const routes = express.Router();
 
 
-routes.get('/vehicle', vehicles.index);
-routes.post('/vehicle', vehicles.store);
+routes.get('/user/:query', UserController.index);
+routes.get('/state', StateController.index);
+routes.get('/state/:state_id/city', CityController.index);
+routes.get('/city/:query', CityController.index);
 
 // routes.get('/brand/:brand_id/model', vehiclesModel.index);
 

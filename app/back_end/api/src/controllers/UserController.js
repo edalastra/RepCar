@@ -4,7 +4,10 @@ const bcrypt = require('bcrypt');
 
 module.exports = {
     async index(req, res) {
-        const user = await User.findAll();
+
+      const user = await User.findAll({
+          where: req.query
+        });
 
         return res.json(user);
     },
