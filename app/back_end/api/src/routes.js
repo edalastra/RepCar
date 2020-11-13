@@ -6,7 +6,7 @@ const { AddressController, CityController, StateController } = require('./contro
 const routes = express.Router();
 
 
-routes.get('/user/:query', UserController.index);
+routes.get('/user', UserController.index);
 routes.get('/state', StateController.index);
 routes.get('/state/:state_id/city', CityController.index);
 routes.get('/city/:query', CityController.index);

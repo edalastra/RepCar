@@ -32,7 +32,7 @@ module.exports = {
                 const data = await user.authorize();
                 res.json({
                     status: 'created with success',
-                    data,
+                    ...data
                 });
             } return res.status(400).json({ 
                 status: 'error',
