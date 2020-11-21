@@ -12,8 +12,8 @@ const Login = (props) => {
 
     const onSubmit = async values => {
         try {
-            const { data: {authToken}} = await api.post('/user/authenticate', values);
-            login(authToken.token);
+            const response = await api.post('/user/authenticate', values);
+            login(response.data.authToken.token);
             props.history.push('/logged/customer/order-service/');
         }
         catch({ response: {status} }) {

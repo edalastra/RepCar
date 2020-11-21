@@ -1,5 +1,5 @@
 const express = require('express');
-const { vehicles, vehiclesModel, vehiclesBrand } = require('./controllers/VechicleController');
+const { VehicleController, VehiclesModelController, vehiclesBrandController } = require('./controllers/VechicleController');
 const UserController = require('./controllers/UserController');
 const { AddressController, CityController, StateController } = require('./controllers/AdressController');
 
@@ -10,10 +10,11 @@ routes.get('/user', UserController.index);
 routes.get('/state', StateController.index);
 routes.get('/state/:state_id/city', CityController.index);
 routes.get('/city/:query', CityController.index);
+routes.get('/user/:user_id/vehicles', VehicleController.index)
+routes.get('/vehicle/brands', vehiclesBrandController.index)
+routes.get('/vehicle/brands/:brand_id/models', VehiclesModelController.index);
 
-// routes.get('/brand/:brand_id/model', vehiclesModel.index);
-
-
+routes.post('/vehicle/register', VehicleController.store)
 routes.post('/user/register', UserController.store);
 routes.post('/user/authenticate', UserController.login)
 

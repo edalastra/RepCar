@@ -1,49 +1,79 @@
 const { Vehicle, VehicleBrand, VehicleModel } = require('../models/Vehicle');
+const User = require('../models/User');
 
-const vehicles = {
+const VehicleController = {
     async index(req, res) {
-        const vehicle = await Vehicle.findAll();
+        const { user_id } = req.params;
 
-        return res.json(vehicle);
+        const user = await User.findByPk(user_id);
+
+        if (!user) {
+            return res.status(400).json({ error: 'User not found' });
+        }
+
+        const { vehicles } = await User.findByPk(user_id, { 
+            include: [{ 
+                association: 'vehicles',
+                attributes: ['id', 'year', 'plate'],
+                include: {
+                    association: 'model',
+                    attributes: ['name'],
+                    include: {
+                        association: 'brand',
+                        attributes: ['name']
+                    }
+                },
+                
+            }],
+        });
+
+        return res.json(vehicles);
     },
     async store(req, res) {
-        const { model_id } = req.params;
-        const { plate, year } = req.body;
+        
+        const { plate, year, model_id, owner_id } = req.body;
 
-        const model = await VehiclesModel.findByPk(model_id);
+        const model = await VehicleModel.findByPk(model_id);
+        const user = await User.findByPk(owner_id);
 
         if (!model) {
             return res.status(400).json({ error: 'Model not found' });
+        }
+        if (!user) {
+            return res.status(400).json({ error: 'User not found' });
         }
 
         const vehicle = await Vehicle.create({ 
             plate, 
             year,
             model_id,
+            owner_id
         });
 
         return res.json(vehicle)
    }
 }
 
-const vehiclesModel = {
+const VehiclesModelController = {
     async index(req, res) {
         const { brand_id } = req.params
 
-        const brand = await VehicleBrand.findByPk(brand_id, { 
-            include: { association: 'models' } 
+        const { models } = await VehicleBrand.findByPk(brand_id, { 
+            include: { association: 'models', attributes: ['id', 'name'] } 
         });
-        return res.json(brand);
+        return res.json(models);
     },
 }
 
 
-const vehiclesBrand = {
+const vehiclesBrandController = {
     async index(req, res) {
-        const brand = await Vehicle.findAll();
+        const brand = await VehicleBrand.findAll({
+            attributes: ['id', 'name']
+        });
 
         return res.json(brand);
     },
 }
 
-module.exports = { vehicles, vehiclesBrand, vehiclesModel }
+module.exports = { VehicleController, VehiclesModelController, vehiclesBrandController }
