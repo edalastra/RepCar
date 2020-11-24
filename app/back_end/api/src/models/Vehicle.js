@@ -27,6 +27,7 @@ class VehicleModel extends Model {
 
     static associate(models) {
         this.belongsTo(models.VehicleBrand, { foreignKey: 'brand_id', as: 'brand' } );
+        this.hasMany(models.ServiceOrder, { foreignKey: 'vehicle_id', as: 'service_order' } );
     }
  }
 

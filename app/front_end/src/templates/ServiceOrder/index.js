@@ -7,7 +7,12 @@ import { Animated } from "react-animated-css";
 
 import Routes from '../../routes/Routes';
 
+
+
 const Form = (props) => {
+
+
+  const { handleSubmit, register, errors, watch } = useForm();
 
   // useEffect(() => {
   //   if (! props.match.params.vehicle_id) 
@@ -15,7 +20,6 @@ const Form = (props) => {
 
   // })
 
-  const { handleSubmit, register, errors, watch } = useForm();
 
   const [vehicles, setVehicles] = useState([]);
   const [brands, setBrands] = useState([]);
@@ -58,12 +62,12 @@ const Form = (props) => {
 
 
   return (
-    <div className="container">
       <div className="card-panel">
         <h4 className="center">Agendar Serviço</h4>
-        <div className="container">
+        
           <div className="row">
-            <form className="col s12" onSubmit={submit}>
+          <form className="col s12" onSubmit={handleSubmit(submit)}>
+           
               <div className="row">
                 <div className="col m6 s12 ">
                   <InputComponent
@@ -98,31 +102,6 @@ const Form = (props) => {
 
 
 
-              <div className="new-vehicle " hidden={!newVehicle} scale-transition scale-out>
-                <div className="card-title">Novo veículo</div>
-
-
-              </div>
-              <div className="row">
-                <div className="input-field col s12 m6">
-                  <select onChange={event => setArea(event.target.value)}>
-                    <option value disabled selected>Escolha as opções</option>
-                    <option value={1}>Motor</option>
-                    <option value={2}>Eletrica</option>
-                    <option value={3}>Suspenção</option>
-                    <option value={4}>Escapamento</option>
-                  </select>
-                  <label>Áreas</label>
-                </div>
-                <div className="input-field col s12 m6">
-                  <select onChange={event => setType(event.target.value)}>
-                    <option value disabled selected>Escolha as opções</option>
-                    <option value={1}>Preventiva</option>
-                    <option value={2}>Corretiva</option>
-                  </select>
-                  <label>Tipos de Serviço</label>
-                </div>
-              </div>
               <div className="row">
                 <div className="col s12">
 
@@ -148,12 +127,11 @@ const Form = (props) => {
                   </button>
                 </div>
               </div>
-            </form>
+              </form>
           </div>
+         
         </div>
-      </div>
-    </div>
-
+  
   )
 
 }
@@ -166,11 +144,7 @@ const VehicleChoice = () => {
   const [addVehicle, setAddVehicle] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      const { data } = await api.get('/user/6/vehicles');
-      setVehicles(data)
-      M.AutoInit()
-    })();
+    listVehicles();
     (async () => {
       const { data } = await api.get('/vehicle/brands');
       setBrands(data);
@@ -180,6 +154,11 @@ const VehicleChoice = () => {
 
   const { handleSubmit, register, errors, watch } = useForm();
 
+  const listVehicles = async () => {
+    const { data } = await api.get('/user/6/vehicles');
+    setVehicles(data)
+    M.AutoInit()
+  };
 
   const listModels = async event => {
     const { data } = await api.get(`/vehicle/brands/${event.target.value}/models`);
@@ -188,83 +167,92 @@ const VehicleChoice = () => {
   }
 
   const submit = async values => {
-    console.log(values)
-    const response = await api.post('/vehicle/register', values);
-    console.log(response)
+    try {
+      const response = await api.post('/vehicle/register', { ...values, owner_id: 6 });
+      listVehicles();
+      setAddVehicle(add => !add);
+    } catch (err) { console.log(err.response) }
+
   }
 
   return (
     <>
-    <form className="col s12" onSubmit={handleSubmit(submit)}>
-    <div className="row">
-       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={!addVehicle}>
-      <div className="input-field col s12 m6">
-        <select  className="select-vehicle" name="vehicle_id">
-          <option value disabled selected>Escolha as opções</option>
-          {vehicles.map((ve, i) => <option key={i} value={ve.id}>
-            {`${ve.model.brand.name} - ${ve.model.name} ${ve.year}`}
-          </option>)}
-
-        </select>
-        <label>Veículos</label>
-      </div>
-
-      <button onClick={event => {
-        event.preventDefault();
-        setAddVehicle(add => !add);
-        }}>Adicionar novo veiculo</button>
-      </Animated>
+     <div className="card-panel">
+     <h4 className="center">Selecione ou adicione um veículo</h4>
+     <div class="card-content">
       
-      <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={addVehicle}>
-      <div className="input-field col s12 m6">
         <div className="row">
-          <div className="input-field col s12 m12">
-            <select ref={register} className="select-brand" onChange={listModels}>
-              <option value disabled selected >Escolha as opções</option>
-              {brands.map((brand, i) => <option key={i} value={brand.id}>
-                {brand.name}
-              </option>)}
-            </select>
-            <label>Fabricante do veículo</label>
-          </div>
+        <form className="col s12" onSubmit={handleSubmit(submit)}>
+          <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={!addVehicle}>
+            <div hidden={addVehicle} className="input-field col s12">
+              <select className="select-vehicle" name="vehicle_id">
+                <option value disabled selected>Escolha as opções</option>
+                {vehicles.map((ve, i) => <option key={i} value={ve.id}>
+                  {`${ve.model.brand.name} - ${ve.model.name} ${ve.year}`}
+                </option>)}
 
-          <div className="input-field col s12 m12">
-            <select ref={register} className="select-brand" >
-              <option value disabled selected>Escolha as opções</option>
-              {models.map((model, i) => <option key={i} value={model.id}>
-                {model.name}
-              </option>)}
-            </select>
-            <label>Modelo</label>
+              </select>
+              <label>Veículos</label>
+            </div>
 
-          </div>
+            <button onClick={event => {
+              event.preventDefault();
+              setAddVehicle(add => !add);
+            }}>Adicionar novo veiculo</button>
+          </Animated>
+
+          <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={addVehicle}>
+            <div hidden={!addVehicle} className="input-field col s12">
+              <div className="row">
+                <div className="input-field col s12 m12">
+                  <select ref={register} className="select-brand" onChange={listModels} >
+                    <option value disabled selected >Escolha as opções</option>
+                    {brands.map((brand, i) => <option key={i} value={brand.id}>
+                      {brand.name}
+                    </option>)}
+                  </select>
+                  <label>Fabricante do veículo</label>
+                </div>
+
+                <div className="input-field col s12 m12">
+                  <select ref={register} className="select-brand" name="model_id">
+                    <option value disabled selected>Escolha as opções</option>
+                    {models.map((model, i) => <option key={i} value={model.id}>
+                      {model.name}
+                    </option>)}
+                  </select>
+                  <label>Modelo</label>
+
+                </div>
+              </div>
+              <div className="row">
+                <div className="col m2 s4 ">
+
+                  <InputComponent
+                    id="year" type="number"
+                    name="year"
+                    className="validate" label="Ano"
+                    reference={register({ required: "Informe o ano do veículo" })}
+                    errorMessages={errors.year && errors.year.message}
+                  />
+                </div>
+                <div className="col m4 s8 ">
+                  <InputComponent
+                    id="placa" type="text"
+                    name="plate"
+                    className="validate" label="Placa"
+                    reference={register({ required: "Informe a placa do veículo" })}
+                    errorMessages={errors.plate && errors.plate.message} />
+                </div>
+                <button type="submit">Salvar</button>
+              </div>
+            </div>
+          </Animated>
+          </form>
         </div>
-        <div className="row">
-          <div className="col m2 s4 ">
-
-            <InputComponent
-              id="year" type="number"
-              name="year"
-              className="validate" label="Ano"
-              reference={register({ required: "Informe o ano do veículo" })}
-              errorMessages={errors.year && errors.year.message}
-            />
-          </div>
-          <div className="col m4 s8 ">
-            <InputComponent
-              id="placa" type="text"
-              name="plate"
-              className="validate" label="Placa" 
-              reference={register({ required: "Informe a placa do veículo" })}
-              errorMessages={errors.plate && errors.plate.message}/>
-          </div>
-         <button type="submit">Salvar</button>
-
-        </div>
+     
       </div>
-      </Animated>
-    </div>
-    </form>
+      </div>
     </>
   )
 }
@@ -273,11 +261,20 @@ const VehicleChoice = () => {
 const ServiceOrder = () => {
   return (
     <>
-     
-          <VehicleChoice />
-          
+      <div >
+        <div className="row">
+          <div className="col s12 m6">
+            <VehicleChoice />
+          </div>
+          <div className="col s12 m6">
+            <Form />
+          </div>
 
-     
+
+        </div>
+
+      </div>
+
     </>
   )
 }

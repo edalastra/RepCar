@@ -24,7 +24,7 @@ module.exports = {
         service_id: {
           type: Sequelize.INTEGER,
           allowNull: false,
-        }
+          }
       
       });
   },

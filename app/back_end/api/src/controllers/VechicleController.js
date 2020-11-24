@@ -3,8 +3,7 @@ const User = require('../models/User');
 
 const VehicleController = {
     async index(req, res) {
-        const { user_id } = req.params;
-
+        const user_id  = req.user.id;
         const user = await User.findByPk(user_id);
 
         if (!user) {
@@ -30,8 +29,9 @@ const VehicleController = {
         return res.json(vehicles);
     },
     async store(req, res) {
+        const owner_id = req.user.id;
         
-        const { plate, year, model_id, owner_id } = req.body;
+        const { plate, year, model_id } = req.body;
 
         const model = await VehicleModel.findByPk(model_id);
         const user = await User.findByPk(owner_id);

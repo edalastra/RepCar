@@ -4,7 +4,6 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
       return queryInterface.changeColumn('service_order', 'service_id',{
         type: Sequelize.INTEGER,
-        primaryKey: true,
         allowNull: false,
         references: { model: 'services', key: 'id' },
         onUpdate: 'CASCADE',
@@ -15,8 +14,7 @@ module.exports = {
   down: (queryInterface, Sequelize) => {
     return queryInterface.changeColumn('service_order', 'service_id',{
       type: Sequelize.INTEGER,
-        primaryKey: true,
-        allowNull: false,
+      allowNull: false,
     });
   }
 };

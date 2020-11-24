@@ -39,7 +39,7 @@ module.exports = {
           allowNull: false,
         },
         admission: {
-          type: Sequelize.DATE,
+          type: Sequelize.DATEONLY,
           allowNull: false,
         },
         created_at: {
