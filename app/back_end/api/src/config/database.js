@@ -6,6 +6,7 @@ module.exports = {
     database: 'repcar',
     define: {
         timestamps: true,
-        underscored: true
-    }
+        underscored: true,
+       // freezeTableName: true
+    },
 };

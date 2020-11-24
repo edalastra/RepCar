@@ -4,8 +4,8 @@ const { Model, DataTypes } = require('sequelize');
 class Worker extends Model {
     static init(connection) {
        super.init({
-           CLT: DataTypes.STRING,
-           PIS: DataTypes.STRING,
+           clt: DataTypes.STRING,
+           pis: DataTypes.STRING,
            genre: DataTypes.STRING,
            hour_value: DataTypes.DOUBLE,
            admission: DataTypes.DATEONLY,
@@ -17,7 +17,8 @@ class Worker extends Model {
 
     static associate(models) {
         this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' } );
-        this.hasMany(models.ServiceOrder, { foreignKey: 'worker_id', as: 'services' });
+        this.hasMany(models.OrderService, { foreignKey: 'worker_id', as: 'services' });
+
     }
 
   

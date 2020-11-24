@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-      return queryInterface.changeColumn('service_order', 'worker_id',{
+      return queryInterface.changeColumn('order_services', 'worker_id',{
         type: Sequelize.INTEGER,
         primaryKey: true,
         allowNull: false,
@@ -13,7 +13,7 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.changeColumn('cities', 'state_id',{
+    return queryInterface.changeColumn('order_services', 'worker_id',{
       type: Sequelize.INTEGER,
         primaryKey: true,
         allowNull: false,

@@ -6,7 +6,7 @@ const { Address, City, State } = require('../models/Address');
 const User = require('../models/User');
 const Worker = require('../models/Worker');
 const Service = require('../models/Service');
-const ServiceOrder = require('../models/ServiceOrder');
+const OrderService = require('../models/OrderService');
 const AuthToken = require('../models/AuthToken');
 
 const connection = new Sequelize(dbconfig);
@@ -21,7 +21,7 @@ State.init(connection);
 User.init(connection);
 AuthToken.init(connection);
 Service.init(connection);
-ServiceOrder.init(connection);
+OrderService.init(connection);
 Worker.init(connection);
 
 Vehicle.associate(connection.models);
@@ -33,7 +33,7 @@ State.associate(connection.models);
 User.associate(connection.models);
 AuthToken.associate(connection.models);
 Service.associate(connection.models);
-ServiceOrder.associate(connection.models);
+OrderService.associate(connection.models);
 Worker.associate(connection.models);
 
 module.exports = connection;

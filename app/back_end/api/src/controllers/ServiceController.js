@@ -1,4 +1,5 @@
-const ServiceOrder = require('../models/ServiceOrder');
+const OrderService = require('../models/OrderService');
+const Worker = require('../models/Worker')
 const { Op } = require("sequelize");
 
 
@@ -13,10 +14,14 @@ const ServiceController = {
 
         // try {
             
-            const workers = await ServiceOrder.findAll();
+            const workers = await OrderService.findAll({
+                associations: 'worker'
+             });
 
             return res.json(workers)
 
+     
+        
 
         // await User.findOrCreate({
         //     where: {cpf,email,},

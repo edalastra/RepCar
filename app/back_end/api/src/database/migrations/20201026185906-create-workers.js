@@ -13,14 +13,14 @@ module.exports = {
           type: Sequelize.INTEGER,
           allowNull: false,
         },
-        CLT: {
+        clt: {
           type: Sequelize.STRING,
           allowNull: false,
           validate: {
             isNumeric: true,
           },
         },
-        PIS: {
+        pis: {
           type: Sequelize.STRING,
           allowNull: false,
           validate: {

@@ -2,15 +2,19 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-      return queryInterface.createTable('service_order', { 
+      return queryInterface.createTable('order_services', { 
+        id: {
+          type: Sequelize.INTEGER,
+          primaryKey: true,
+          autoIncrement: true,
+          allowNull: false,
+        },
         date:{
           type: Sequelize.DATEONLY,
-          primaryKey: true,
           allowNull: false,
         },
         shift: {
           type: Sequelize.STRING(5),
-          primaryKey: true,
           validate: {
             isIn: [['morning', 'afternoon', 'night']],
           },
@@ -18,18 +22,25 @@ module.exports = {
         },
         worker_id: {
           type: Sequelize.INTEGER,
-          primaryKey: true,
           allowNull: false,
         },
         service_id: {
           type: Sequelize.INTEGER,
           allowNull: false,
+          },
+          created_at: {
+            allowNull: false,
+            type: Sequelize.DATE
+          },
+          updated_at: {
+            allowNull: false,
+            type: Sequelize.DATE
           }
       
       });
   },
 
   down: (queryInterface, Sequelize) => {
-      return queryInterface.dropTable('service_order');
+      return queryInterface.dropTable('order_services', {cascade: true});
   }
 };

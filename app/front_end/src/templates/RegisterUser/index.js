@@ -23,7 +23,7 @@ const RegisterUser =  (props) => {
                 }
             });
             if(response.status == 200) {
-                login(response.authToken.token)
+                login(response.data.authToken.token)
                 props.history.push('/logged/customer/order-service')
             }
         } catch(err) {

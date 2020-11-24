@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 
-class ServiceOrder extends Model {
+class OrderService extends Model {
     static init(connection) {
        super.init({
            date: DataTypes.DATEONLY,
@@ -12,8 +12,8 @@ class ServiceOrder extends Model {
 
     static associate(models) {
         this.belongsTo(models.Service, { foreignKey: 'service_id', as: 'service' } );
-        this.belongsTo(models.Worker, { foreignKey: 'worker_id', as: 'worker' })
+        this.belongsTo(models.Worker, { foreignKey: 'worker_id', as: 'worker' } );
     }
 }
 
-module.exports = ServiceOrder;
+module.exports = OrderService;
