@@ -10,7 +10,6 @@ class User extends Model {
            cpf: DataTypes.STRING,
            birth_date: DataTypes.DATE,
            password: DataTypes.STRING,
-           type: DataTypes.STRING,
        }, {
            sequelize: connection
        }); 
@@ -19,8 +18,9 @@ class User extends Model {
     static associate(models) {
         this.belongsTo(models.Address, { foreignKey: 'address_id', as: 'address' } );
         this.hasMany(models.Vehicle, { foreignKey: 'owner_id', as: 'vehicles' });
-        this.hasMany(models.AuthToken, { foreignKey: 'user_id', as: 'token' });
-        this.hasMany(models.Worker, { foreignKey: 'worker_id', as: 'worker' })
+        this.hasMany(models.AuthToken, { foreignKey: 'user_id', as: 'token' });     
+        this.hasMany(models.Worker, { foreignKey: 'user_id', as: 'worker' });
+
     }
 
     static async authenticate(email, password) {

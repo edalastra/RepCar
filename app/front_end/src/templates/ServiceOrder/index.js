@@ -9,7 +9,7 @@ import Routes from '../../routes/Routes';
 
 
 
-const Form = (props) => {
+const Form = ({ submit }) => {
 
 
   const { handleSubmit, register, errors, watch } = useForm();
@@ -21,44 +21,7 @@ const Form = (props) => {
   // })
 
 
-  const [vehicles, setVehicles] = useState([]);
-  const [brands, setBrands] = useState([]);
-  const [models, setModels] = useState([]);
-  const [date, setDate] = useState('');
-  const [time, setTime] = useState('');
-  const [year, setYear] = useState('');
-  const [placa, setPlaca] = useState('');
-  const [description, setDescription] = useState('');
-  const [ps, setPs] = useState('');
-  const [newVehicle, setNewVehicle] = useState(false);
-  const [modelId, setModelId] = useState('');
-  const [vehicleId, setVehicleId] = useState('');
-  const [engineDescription, setEngineDescription] = useState('');
-  const [area, setArea] = useState('');
-  const [type, setType] = useState('');
-
-
-
-  const submit = () => {
-
-    console.log(JSON.stringify({
-      date,
-      time,
-      area,
-      type,
-      description,
-      ps,
-      newVehicle,
-      vehicleId,
-      addVehicle: {
-        ownerId: 1,
-        modelId,
-        year,
-        placa,
-        engineDescription
-      }
-    }))
-  }
+ 
 
 
   return (
@@ -80,19 +43,19 @@ const Form = (props) => {
                 <div className=" col m6 s12 ">
                   <p>
                     <label>
-                      <input name="shift" value="morning" type="radio" checked />
+                      <input ref={register()} name="shift" value="morning" type="radio" checked />
                       <span>Manhã</span>
                     </label>
                   </p>
                   <p>
                     <label>
-                      <input name="shift" value="afternoon" type="radio" />
+                      <input ref={register()} name="shift" value="afternoon" type="radio" />
                       <span>Tarde</span>
                     </label>
                   </p>
                   <p>
                     <label>
-                      <input name="shift" value="night" type="radio" />
+                      <input ref={register()} name="shift" value="night" type="radio" />
                       <span>Noite</span>
                     </label>
                   </p>
@@ -106,18 +69,21 @@ const Form = (props) => {
                 <div className="col s12">
 
                   <InputComponent
-                    id="problem-description" type="text"
+                    id="description" type="text"
                     className="validate materialize-textarea" label="Descrição do(s) problema(s)"
-                    onChange={event => setDescription(event.target.value)}
-                    value={description}
-                    validators={['required',]}
-                    errorMessages={['Este campo é obrigatório']} />
+
+                    reference={register({ required: "Informe a descrição do problema" })}
+                    errorMessages={errors.description && errors.description.message} />
                 </div>
               </div>
               <div className="row">
                 <div className="input-field col s12">
-                  <textarea onChange={event => setPs(event.target.value)} id="observations" className="materialize-textarea" defaultValue={""} />
-                  <label htmlFor="observations">Observações</label>
+                  <InputComponent  
+                    className="materialize-textarea" 
+                    label="Observações"
+                    name="notes"
+                    reference={register({ required: "Informe a descrição do problema"})}
+                    />
                 </div>
               </div>
               <div className="row">
@@ -259,15 +225,17 @@ const VehicleChoice = () => {
 
 
 const ServiceOrder = () => {
+  const submit = values => console.log(values);
+
   return (
     <>
       <div >
         <div className="row">
           <div className="col s12 m6">
-            <VehicleChoice />
+            <VehicleChoice  />
           </div>
           <div className="col s12 m6">
-            <Form />
+            <Form submit={submit}/>
           </div>
 
 

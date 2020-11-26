@@ -8,6 +8,7 @@ const Worker = require('../models/Worker');
 const Service = require('../models/Service');
 const OrderService = require('../models/OrderService');
 const AuthToken = require('../models/AuthToken');
+const Root = require('../models/Root');
 
 const connection = new Sequelize(dbconfig);
 
@@ -23,6 +24,7 @@ AuthToken.init(connection);
 Service.init(connection);
 OrderService.init(connection);
 Worker.init(connection);
+Root.init(connection);
 
 Vehicle.associate(connection.models);
 VehicleModel.associate(connection.models);

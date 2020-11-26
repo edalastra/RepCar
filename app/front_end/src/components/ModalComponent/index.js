@@ -14,7 +14,7 @@ const ModalComponent = ({ buttonLabel, header, content, confirmation, btnconfirm
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="#!" class="modal-close waves-effect waves-green btn-flat" onClick={btnconfirmation}>{confirmation}</a>
+                    <a href="#!" class="modal-close waves-effect waves-green btn-flat" >{confirmation}</a>
                 </div>
             </div>
         </>

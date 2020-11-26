@@ -46,6 +46,13 @@ module.exports = {
           type: Sequelize.DATE,
           allowNull: false,
         },
+        type: {
+          type: Sequelize.STRING(10),
+          allowNull: false,
+          validate: {
+            isIn: [['customer', 'worker', 'admin']],
+          },
+        },
         updated_at: {
           type: Sequelize.DATE,
           allowNull: false,

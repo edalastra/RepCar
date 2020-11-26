@@ -14,7 +14,7 @@ module.exports = {
           allowNull: false,
         },
         shift: {
-          type: Sequelize.STRING(5),
+          type: Sequelize.STRING,
           validate: {
             isIn: [['morning', 'afternoon', 'night']],
           },

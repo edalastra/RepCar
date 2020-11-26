@@ -1,6 +1,8 @@
 const OrderService = require('../models/OrderService');
+const Service = require('../models/Service');
 const Worker = require('../models/Worker')
 const { Op } = require("sequelize");
+const { findOrCreate } = require('../models/OrderService');
 
 
 const ServiceController = {
@@ -14,12 +16,43 @@ const ServiceController = {
 
         // try {
             
-            const workers = await OrderService.findAll({
-                associations: 'worker'
+            const workers = await Worker.findAll({
+                include: {
+                    association: 'service', 
+                    where: { [Op.and]: [{date}, {shift}] }
+                }
              });
 
-            return res.json(workers)
+             
+             const freeWorker = await Worker.findAll({
+                 where: {id: {[Op.notIn]: workers.map((w, i) => w.id)}},
+                 order: [['id', 'ASC'],],
+                 limit: 1
+             })
 
+             if(freeWorker.length < 1) {
+                 res.json({
+                    error: 'Indisponibilidade de funcionários para essa data e turno'
+             })}
+
+
+             await OrderService.findOrCreate({
+                where: {[Op.and]: [{date}, {shift}, {worker_id: freeWorker[0].id} ]},
+                defaults :  Object.assign(req.body, { worker_id: freeWorker[0].id }),
+                    include: [{
+                        model: Service,
+                        as: 'service',
+                    }]
+                
+            }).spread(async (order, created) => {
+                if(created) {
+                    res.json(order);
+                } return res.status(400).json({ 
+                    status: 'error',
+                    msg: 'This order already registered'
+                });
+            })
+             
      
         
 
