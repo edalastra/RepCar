@@ -4,25 +4,16 @@ import './alert.css';
 import Routes from './routes/Routes';
 
 
-import HeaderComponent from './components/HeaderComponent/index';
-import FooterComponent from './components/FooterComponent/index';
-import { AuthProvider } from './context/AuthContext';
+
 
 
 const App = () => {
 
   return (
     <>
-    
-      <AuthProvider>
 
-        <HeaderComponent />
-      
-          <Routes />
-        <FooterComponent />
+          <Routes /> 
 
-      </AuthProvider>
- 
     </>
   );
 }

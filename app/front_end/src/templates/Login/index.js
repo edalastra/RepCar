@@ -3,18 +3,28 @@ import { withRouter, Link } from 'react-router-dom';
 import api from '../../api';
 import { useForm } from "react-hook-form";
 import InputComponent from '../../components/InputComponent';
-import { login } from '../../auth';
+import { login, intranetLogin } from '../../auth';
 import './style.css';
 
 const Login = (props) => {
     const { handleSubmit, register, errors, watch } = useForm();
     const [error, setError] = useState('');
 
+    const toIntranet = props.location.pathname.split('/')[2] == 'intranet';
     const onSubmit = async values => {
+       
+
         try {
-            const response = await api.post('/user/authenticate', values);
-            login(response.data.authToken.token);
-            props.history.push('/logged/customer/order-service/');
+            if(toIntranet){
+                const response = await api.post('/user/worker/authenticate', values);
+                login(response.data.authToken.token);
+                return props.history.push('/intranet');
+            } else {
+                const response = await api.post('/user/authenticate', values);
+                intranetLogin(response.data.authToken.token);
+                return props.history.push('/customer');
+            }
+           
         }
         catch({ response: {status} }) {
             if(status == 400) { setError('Email ou senha incorretos'); }
@@ -38,7 +48,7 @@ const Login = (props) => {
                     <div className="col s12 m7 offset-m3 l6 offset-l3 z-depth-6 card-panel box ">
                         <div className="container ">
                             <div className="section login-panel">
-                                <h5 className="black-text center">Entre para continuar</h5>
+                                <h5 className="black-text center">{toIntranet? 'Acesso ao sistema interno' : 'Entre para continuar'}</h5>
 
 
                                 <form onSubmit={handleSubmit(onSubmit)}>

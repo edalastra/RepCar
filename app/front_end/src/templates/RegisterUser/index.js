@@ -8,7 +8,7 @@ import M from "materialize-css";
 import { login } from '../../auth';
 
 
-const RegisterUser =  (props) => {
+const RegisterUser =  ({ history }) => {
     const { handleSubmit, register, errors, watch } = useForm();
     const onSubmit = async values => {
         const {name, email, telephone, cpf, birth_date, password, 
@@ -24,7 +24,7 @@ const RegisterUser =  (props) => {
             });
             if(response.status == 200) {
                 login(response.data.authToken.token)
-                props.history.push('/logged/customer/order-service')
+                history.push('/customer')
             }
         } catch(err) {
             console.log(err)

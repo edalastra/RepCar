@@ -16,13 +16,7 @@ module.exports = {
         notes: {
           type: Sequelize.TEXT
         },
-        vehicle_id: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-          references: { model: 'vehicles', key: 'id' },
-          onUpdate: 'CASCADE',
-          onDelete: 'CASCADE',
-        },
+
         created_at: {
           type: Sequelize.DATE,
           allowNull: false,

@@ -24,6 +24,13 @@ module.exports = {
           type: Sequelize.INTEGER,
           allowNull: false,
         },
+        vehicle_id: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          references: { model: 'vehicles', key: 'id' },
+          onUpdate: 'CASCADE',
+          onDelete: 'CASCADE',
+        },
         service_id: {
           type: Sequelize.INTEGER,
           allowNull: false,

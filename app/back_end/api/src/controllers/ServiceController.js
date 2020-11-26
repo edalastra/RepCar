@@ -1,13 +1,29 @@
 const OrderService = require('../models/OrderService');
+const User = require('../models/User');
 const Service = require('../models/Service');
 const Worker = require('../models/Worker')
 const { Op } = require("sequelize");
-const { findOrCreate } = require('../models/OrderService');
 
 
 const ServiceController = {
     async index(req, res) {
         const services = await ServiceOrder.findAll();
+        return res.json(services);
+    },
+
+    async assignments(req, res) {
+        const { id } = req.user;
+        const services = await OrderService.findAll({
+            where: { 
+                '$worker.user_id$': id
+             },
+            include: [
+                {association: 'worker'},
+                {association: 'service',
+                include:{association: 'vehicle'},    
+            }
+            ]
+        });
         return res.json(services);
     },
 
@@ -31,7 +47,7 @@ const ServiceController = {
              })
 
              if(freeWorker.length < 1) {
-                 res.json({
+                 res.status(400).json({
                     error: 'Indisponibilidade de funcionários para essa data e turno'
              })}
 

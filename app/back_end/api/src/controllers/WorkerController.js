@@ -13,6 +13,11 @@ module.exports = {
         return res.json(admins)
 
     },
+    async me(req, res) {
+
+      return res.json(req.user);
+    },
+
     async store(req, res) {
 
 
@@ -59,13 +64,13 @@ module.exports = {
           );
         }
       
-        // try {
+         try {
           const user = await Worker.authenticate(email, password)
           return res.json(user);
       
-        // } catch (err) {
-        //   return res.status(400).send('invalid email or password');
-        // }
+        } catch (err) {
+          return res.status(400).send('invalid email or password');
+        }
       
       }
 }

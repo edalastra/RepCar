@@ -16,7 +16,7 @@ class Worker extends Model{
     }
     static associate(models) {
         this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' } );
-        this.hasMany(models.OrderService, { foreignKey: 'worker_id', as: 'service' } );
+        this.hasMany(models.OrderService, { foreignKey: 'worker_id', as: 'orders' } );
 
     }
     static async authenticate(email, password) {

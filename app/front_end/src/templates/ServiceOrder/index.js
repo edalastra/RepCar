@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import M from 'materialize-css'
+import { withRouter } from 'react-router-dom';
 import InputComponent from '../../components/InputComponent';
 import { useForm } from "react-hook-form";
 import api from '../../api';
@@ -14,15 +15,6 @@ const Form = ({ submit }) => {
 
   const { handleSubmit, register, errors, watch } = useForm();
 
-  // useEffect(() => {
-  //   if (! props.match.params.vehicle_id) 
-  //     return (<Redirect to="/logged/customer/order-service/vehicle-choice" />)
-
-  // })
-
-
- 
-
 
   return (
       <div className="card-panel">
@@ -35,7 +27,9 @@ const Form = ({ submit }) => {
                 <div className="col m6 s12 ">
                   <InputComponent
                     id="date" type="date" name="date"
-                    reference={register({ required: "Escolha uma data", })}
+                    reference={register({ required: "Escolha uma data", 
+                      validate: value => new Date(value) >= new Date() || "Escolha uma data a partir de hoje"   
+                      })}
                     label="Data" className="validate"
                     errorMessages={errors.date && errors.date.message}
                   />
@@ -69,7 +63,7 @@ const Form = ({ submit }) => {
                 <div className="col s12">
 
                   <InputComponent
-                    id="description" type="text"
+                    name="description" type="text"
                     className="validate materialize-textarea" label="Descrição do(s) problema(s)"
 
                     reference={register({ required: "Informe a descrição do problema" })}
@@ -103,7 +97,7 @@ const Form = ({ submit }) => {
 }
 
 
-const VehicleChoice = () => {
+const VehicleChoice = ({ change }) => {
   const [vehicles, setVehicles] = useState([]);
   const [brands, setBrands] = useState([]);
   const [models, setModels] = useState([]);
@@ -151,7 +145,7 @@ const VehicleChoice = () => {
         <form className="col s12" onSubmit={handleSubmit(submit)}>
           <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={!addVehicle}>
             <div hidden={addVehicle} className="input-field col s12">
-              <select className="select-vehicle" name="vehicle_id">
+              <select className="select-vehicle" onChange={e => change(e.target.value)}>
                 <option value disabled selected>Escolha as opções</option>
                 {vehicles.map((ve, i) => <option key={i} value={ve.id}>
                   {`${ve.model.brand.name} - ${ve.model.name} ${ve.year}`}
@@ -224,15 +218,41 @@ const VehicleChoice = () => {
 }
 
 
-const ServiceOrder = () => {
-  const submit = values => console.log(values);
+const ServiceOrder = ({ history }) => {
+  const [error, setError] = useState('');
+  
+
+
+  const [vehicle_id, setVehicle_id] = useState('')
+  const submit = async values => {
+    const { date, shift, description, notes } = values;
+    try {
+      const response = await api.post('/service/register',{
+        date, shift, service: {
+          vehicle_id, description, notes
+        } 
+      });
+      history.push('/customer');
+    } catch(err){
+      if(err.response.status == 400) setError('Não temos funcionários para lhe atender nesse horário. Escolha outro.')
+      if(err.response.status == 500) setError('Oops! Ocorreu um erro inesperado.')
+    }
+
+  }
+
 
   return (
     <>
+
+      <div className={`materialert danger ${!error ? 'hide': ''}`}>
+          <div className="material-icons">info</div>
+          {error}
+      </div>
+
       <div >
         <div className="row">
           <div className="col s12 m6">
-            <VehicleChoice  />
+            <VehicleChoice change={id => setVehicle_id(id)} />
           </div>
           <div className="col s12 m6">
             <Form submit={submit}/>
@@ -248,4 +268,4 @@ const ServiceOrder = () => {
 }
 
 
-export default ServiceOrder;
+export default withRouter(ServiceOrder);
