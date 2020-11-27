@@ -4,7 +4,8 @@ import {
     Switch,
     Route,
     Link,
-    Redirect
+    Redirect,
+    
   } from "react-router-dom";
 import Home from '../templates/Home/';
 import RegisterUser from '../templates/RegisterUser';
@@ -17,43 +18,21 @@ import { isAuthenticated, isWorker } from '../auth';
 import Intranet from '../templates/Intranet';
 
 
-const PrivateRoute = ({ children, ...rest }) => {
+const PrivateRoute = ({ component, ...rest }) => {
     return (
-      <Route
-        {...rest}
-        render={({ location }) =>
-          isAuthenticated() ? (
-            children
-          ) : (
-            <Redirect
-              to={{
-                pathname: "/login",
-                state: { from: location }
-              }}
-            />
-          )
-        }
+      <Route {...rest}
+      component={isAuthenticated() ? component : <Redirect to='/login'/>}
+      
       />
-    );
+    )
   }
-
-  const IntranetRoute = ({ children, ...rest }) => {
+  const IntranetRoute = ({ component, ...rest }) => {
     return (
-      <Route
-        {...rest}
-        render={({ location }) =>
-        isWorker() ? (
-            children
-          ) : (
-            <Redirect
-              to={{
-                pathname: "/login/intranet",
-                state: { from: location }
-              }}
-            />
-          )
-        }
+      <Route {...rest} 
+        component={isWorker() ? 
+        component : <Redirect to='/login/intranet'/>}
       />
+      
     );
   }
 
@@ -67,13 +46,18 @@ const Routes = () => {
         <Switch>
             <Redirect exact from="/" to="/home" />
             <Route path="/home" component={Home} />
-            <Route path="/register" component={RegisterUser} />
-            <Route path="/login" component={Login} />
-            <Route path="/login/intranet" component={Login} />
-            <PrivateRoute path="/customer" component={ServiceOrder} />
-            <IntranetRoute path="/intranet" component={Intranet} />
-            
+            <Route exact path="/register" component={RegisterUser} />
+            <Route exact path="/login" component={Login} >
+              {!isAuthenticated() ? <Login /> : <Redirect to='/customer'/>}
+            </Route>
+            <Route exact path="/login/intranet" component={Login} >
+              {!isWorker() ? <Login /> : <Redirect to='/intranet'/>}
+            </Route>            
+            <PrivateRoute  path="/customer" component={Customer} /> 
+            <IntranetRoute path="/intranet" component={Intranet}/> 
+               
         </Switch>
+
         <FooterComponent />
     </Router>
     )

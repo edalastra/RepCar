@@ -35,14 +35,21 @@ module.exports = {
           type: Sequelize.INTEGER,
           allowNull: false,
           },
-          created_at: {
-            allowNull: false,
-            type: Sequelize.DATE
-          },
-          updated_at: {
-            allowNull: false,
-            type: Sequelize.DATE
+        status: {
+          type: Sequelize.STRING,
+          allowNull: false,
+          validate: {
+            isIn: ['pending', 'finished', 'canceled']
           }
+        },
+        created_at: {
+          allowNull: false,
+          type: Sequelize.DATE
+        },
+        updated_at: {
+          allowNull: false,
+          type: Sequelize.DATE
+        }
       
       });
   },

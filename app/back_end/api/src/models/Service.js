@@ -11,7 +11,6 @@ class Service extends Model {
     }
 
     static associate(models) {
-        this.belongsTo(models.Vehicle, { foreignKey: 'vehicle_id', as: 'vehicle' } );
         this.hasMany(models.OrderService, { foreignKey: 'service_id', as: "order" } );
     }
 }

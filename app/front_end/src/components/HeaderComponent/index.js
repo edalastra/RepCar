@@ -17,8 +17,8 @@ const HeaderComponent = ({ history }) => {
                     <ul className="right hide-on-med-and-down">
                         <li><a href="sass.html">Sobre</a></li>
                         <li><a href="badges.html">Contato</a></li>
-                        <li><a href="collapsible.html">Serviços</a></li>
-                        <li><Link to='/login/intranet/'>Interno</Link></li>
+                        <li><Link to='/login'>Login</Link></li>
+                        <li><Link to='/login/intranet'>Interno</Link></li>
                     </ul>
 
                 </div>

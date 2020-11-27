@@ -8,7 +8,7 @@ const CardComponent = ({ title, text, action, notes }) => {
       <div class="card blue-grey darken-1">
         <div class="card-content white-text">
             <span class="card-title">{title}</span>
-            <p>{text}</p>
+            <p>Descrição: {text}</p>
             <hr / >
             <p>Obs: {notes}</p>
         </div>

@@ -1,16 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import * as format from 'date-format';
-
-import { apiworker } from '../../api';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    withRouter
-  } from "react-router-dom";
+import SidenavComponent from '../../components/SidenavComponent';
 import CardComponent from '../../components/CardComponent';
-
+import { apiworker } from '../../api';
 
 const Services = () => {
     
@@ -40,7 +32,7 @@ const Services = () => {
                     title={`${format('dd/MM', new Date(order.date))} - ${order.shift}`}
                     text={order.service.description}
                     notes={order.service.notes}
-                    action={orders.service.vehicle.plate}
+                    action={order.vehicle.model.name}
                 />
             </div>
             )}
@@ -70,7 +62,7 @@ const Intranet = () => {
         {
           path: "/intranet/services",
           exact: true,
-          sidebar: () => <div>home!</div>,
+          sidebar: () => <div>Serviços</div>,
           main: () => <Services/>
         },
         {
@@ -80,62 +72,26 @@ const Intranet = () => {
         },
       ];
 
+      const links = [
+          {
+              to: '/intranet/services',
+              label: 'Serviços'
+          },
+          {
+              to: '/intranet/workers',
+              label: 'Funcionários'
+          }
+      ]
+
+
   return (
       <>
-   
-
-    <Router>
-        <div className="row">
-            <div className="col-m4">
-            <div style={{ display: "flex" }}>
-            <div
-            style={{
-                padding: "10px",
-                background: "#f0f0f0",
-                height: '100%',
-            }}
-            >
-            <ul style={{ listStyleType: "none", padding: 0 }}>
-        
-                <li>
-                <Link to="/intranet/services">Serviços</Link>
-                </li>
-                <li>
-                <Link to="/intranet/workers">Funcionários</Link>
-                </li>
-            </ul>
-
-            <Switch>
-                {routes.map((route, index) => (
-                <Route
-                    key={index}
-                    path={route.path}
-                    exact={route.exact}
-                    children={<route.sidebar />}
-                />
-                ))}
-            </Switch>
-            </div>
-
-            <div style={{ flex: 1, padding: "10px" }}>
-            <Switch>
-                {routes.map((route, index) => (
-                <Route
-                    key={index}
-                    path={route.path}
-                    exact={route.exact}
-                    children={<route.main />}
-                />
-                ))}
-            </Switch>
-            </div>
-        </div>
-            </div>
-        </div>
-   
-        </Router>
+        <SidenavComponent 
+            routes={routes}
+            links={links}
+        />
       </>
   );
 }
 
-export default withRouter(Intranet);
+export default Intranet;

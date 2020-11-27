@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import M from 'materialize-css';
 import './style.css';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
-// import carousel1 from './img/carousel-1.jpg';
-// import carousel2 from './img/carousel-2.jpg';
-// import engine from './img/engine.jpg';
+import carousel1 from './img/carousel-1.jpg';
+import carousel2 from './img/carousel-2.jpg';
+import carousel3 from './img/carousel-3.jpg';
+
+import engine from './img/paralax.jpg';
 import injecao from './img/injecao.png';
 import manutencao from './img/manutencao.png';
 import suspencao from './img/suspencao.png';
@@ -15,7 +18,10 @@ import marcas3 from './img/marcas3.png';
 
 
 const Home = () => {
-
+  useEffect(() => {
+    (async () => M.AutoInit())()
+  },[])
+  
     return (
         <>
             <div className="carousel carousel-slider center">
@@ -23,13 +29,18 @@ const Home = () => {
               <Link to="/login" className="btn waves-effect white white-text red darken-4">agende um horario</Link>
             </div>
             <div className="carousel-item white-text" href="https://br.freepik.com/fotos-vetores-gratis/carro">
-                <img src="{carousel1}" alt="" className="responsive-img" /> 
+                <img src={carousel1} alt="" className="responsive-img" /> 
             </div>
 
             <div className="carousel-item green white-text" href="https://br.freepik.com/fotos-vetores-gratis/carro">
-                <img src="{carousel2}" alt="" className="responsive-img" />
+                <img src={carousel2} alt="" className="responsive-img" />
+            </div>
+            <div className="carousel-item green white-text" href="https://br.freepik.com/fotos-vetores-gratis/carro">
+                <img src={carousel3} alt="" className="responsive-img" />
             </div>
           </div>
+
+          
 
             <section className="center">
               <h3>BEM VINDO À REPCAR</h3>
@@ -70,7 +81,7 @@ const Home = () => {
 </div>
           <div className="parallax-container">
             <div className="parallax">
-              <img src="{engine}" />
+              <img src={engine} />
               
             </div>
           </div>

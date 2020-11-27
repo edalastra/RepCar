@@ -16,7 +16,6 @@ module.exports = {
         notes: {
           type: Sequelize.TEXT
         },
-
         created_at: {
           type: Sequelize.DATE,
           allowNull: false,

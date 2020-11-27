@@ -7,6 +7,7 @@ import api from '../../api';
 import { Animated } from "react-animated-css";
 
 import Routes from '../../routes/Routes';
+import AlertComponent from '../../components/AlertComponent';
 
 
 
@@ -102,6 +103,7 @@ const VehicleChoice = ({ change }) => {
   const [brands, setBrands] = useState([]);
   const [models, setModels] = useState([]);
   const [addVehicle, setAddVehicle] = useState(false);
+  const [alert, setAlert] = useState({})
 
   useEffect(() => {
     listVehicles();
@@ -115,7 +117,7 @@ const VehicleChoice = ({ change }) => {
   const { handleSubmit, register, errors, watch } = useForm();
 
   const listVehicles = async () => {
-    const { data } = await api.get('/user/6/vehicles');
+    const { data } = await api.get('/user/vehicles');
     setVehicles(data)
     M.AutoInit()
   };
@@ -131,12 +133,17 @@ const VehicleChoice = ({ change }) => {
       const response = await api.post('/vehicle/register', { ...values, owner_id: 6 });
       listVehicles();
       setAddVehicle(add => !add);
+      setAlert({
+        status: 'success',
+        msg: 'Veículo registrado com sucesso'
+      });
     } catch (err) { console.log(err.response) }
 
   }
 
   return (
     <>
+      <AlertComponent status={alert.status} msg={alert.msg} />
      <div className="card-panel">
      <h4 className="center">Selecione ou adicione um veículo</h4>
      <div class="card-content">
@@ -228,12 +235,14 @@ const ServiceOrder = ({ history }) => {
     const { date, shift, description, notes } = values;
     try {
       const response = await api.post('/service/register',{
-        date, shift, service: {
-          vehicle_id, description, notes
+        date, shift, vehicle_id, service: {
+          description, notes
         } 
       });
+      console.log(response)
       history.push('/customer');
     } catch(err){
+      console.log(err.response)
       if(err.response.status == 400) setError('Não temos funcionários para lhe atender nesse horário. Escolha outro.')
       if(err.response.status == 500) setError('Oops! Ocorreu um erro inesperado.')
     }

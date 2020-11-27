@@ -19,9 +19,10 @@ const ServiceController = {
              },
             include: [
                 {association: 'worker'},
-                {association: 'service',
-                include:{association: 'vehicle'},    
-            }
+                {association: 'service'},
+                {association: 'vehicle',
+                    include: {association: 'model'}
+                },    
             ]
         });
         return res.json(services);
@@ -34,7 +35,7 @@ const ServiceController = {
             
             const workers = await Worker.findAll({
                 include: {
-                    association: 'service', 
+                    association: 'orders', 
                     where: { [Op.and]: [{date}, {shift}] }
                 }
              });

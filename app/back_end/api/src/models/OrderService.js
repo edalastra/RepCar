@@ -13,6 +13,8 @@ class OrderService extends Model {
     static associate(models) {
         this.belongsTo(models.Service, { foreignKey: 'service_id', as: 'service' } );
         this.belongsTo(models.Worker, { foreignKey: 'worker_id', as: 'worker' } );
+        this.belongsTo(models.Vehicle, { foreignKey: 'vehicle_id', as: 'vehicle' } );
+
     }
 }
 

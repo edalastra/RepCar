@@ -1,25 +1,64 @@
 import React from 'react';
 import './style.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  withRouter
+} from "react-router-dom";
 
-const SidenavComponent = ({ name, email, content}) => {
+const SidenavComponent = ({ routes, links}) => {
   return (
-      <>
-
-        <ul id="slide-out" className="sidenav">
-        <li>
-            <div className="user-view">
-                <div className="background">
-                    <div className="back-office" />
-                </div>
-                <a href="#user"><img className="circle" src="user.png" /></a>
-                <a href="#name"><span className="white-text name">{name}</span></a>
-                <a href="#email"><span className="white-text email">{email}</span></a>
-            </div>
-        </li>
-        {content}
+    <Router>
+    <div className="row">
+        <div className="col-m4">
+        <div style={{ display: "flex" }}>
+        <div
+        style={{
+            padding: "10px",
+            background: "#f0f0f0",
+            height: '100%',
+            width: '15%'
+        }}
+        >
+        <ul style={{ listStyleType: "none", padding: 0 }}>
+          {links.map((link, index) => (
+            <li key={index} >
+              <Link to={link.to}>{link.label}</Link>
+            </li>
+          ))}
         </ul>
-        <a href="#" data-target="slide-out" className="sidenav-trigger"><i className="material-icons">menu</i></a>
-    </>
+
+        <Switch>
+            {routes.map((route, index) => (
+            <Route
+                key={index}
+                path={route.path}
+                exact={route.exact}
+                children={<route.sidebar />}
+            />
+            ))}
+        </Switch>
+        </div>
+
+        <div style={{ flex: 1, padding: "10px" }}>
+        <Switch>
+            {routes.map((route, index) => (
+            <Route
+                key={index}
+                path={route.path}
+                exact={route.exact}
+                children={<route.main />}
+            />
+            ))}
+        </Switch>
+        </div>
+    </div>
+        </div>
+    </div>
+
+    </Router>
   );
 }
 

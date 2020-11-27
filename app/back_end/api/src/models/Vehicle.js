@@ -13,7 +13,7 @@ class Vehicle extends Model {
     static associate(models) {
         this.belongsTo(models.VehicleModel, { foreignKey: 'model_id', as: 'model' } );
         this.belongsTo(models.User, { foreignKey:'owner_id', as: 'owner'});
-        this.hasMany(models.Service, { foreignKey: 'vehicle_id', as: 'services' } );
+        this.hasMany(models.OrderService, { foreignKey: 'vehicle_id', as: 'services' } );
     }
 }
 

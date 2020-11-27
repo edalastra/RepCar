@@ -40,10 +40,12 @@ const RegisterUser =  ({ history }) => {
     const [states, setStates] = useState([]);
     const [cities, setCities] = useState([]);
 
-    useEffect(async () => {
-        const response = await api.get('/state');
-        setStates(response.data);
-        M.AutoInit();
+    useEffect(() => {
+        (async () => {
+            const response = await api.get('/state');
+            setStates(response.data);
+            M.AutoInit();
+        })()
     }, [])
 
     const getCities = async event => {

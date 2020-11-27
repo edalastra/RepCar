@@ -1,5 +1,7 @@
 const { Vehicle, VehicleBrand, VehicleModel } = require('../models/Vehicle');
 const User = require('../models/User');
+const { Op } = require("sequelize");
+ 
 
 const VehicleController = {
     async index(req, res) {
@@ -51,6 +53,19 @@ const VehicleController = {
         });
 
         return res.json(vehicle)
+   },
+
+   async delete(req, res){
+       const owner_id = req.user.id;
+       console.log(req.body)
+       const { id } = req.params
+
+       const deleted = await Vehicle.destroy({
+        where: {
+            [Op.and]: [{ owner_id }, { id }]
+        }
+      });
+      return res.json(deleted);
    }
 }
 

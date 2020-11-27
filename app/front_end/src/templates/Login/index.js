@@ -1,16 +1,21 @@
 import React, { useRef, useState, useContext } from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import api from '../../api';
 import { useForm } from "react-hook-form";
 import InputComponent from '../../components/InputComponent';
-import { login, intranetLogin } from '../../auth';
+import { login, intranetLogin, isAuthenticated, isWorker } from '../../auth';
 import './style.css';
 
 const Login = (props) => {
+    const history = useHistory();
+    const location = useLocation()
+
     const { handleSubmit, register, errors, watch } = useForm();
     const [error, setError] = useState('');
+    const toIntranet = location.pathname.split('/')[2] == 'intranet';
 
-    const toIntranet = props.location.pathname.split('/')[2] == 'intranet';
+    
+
     const onSubmit = async values => {
        
 
@@ -18,11 +23,11 @@ const Login = (props) => {
             if(toIntranet){
                 const response = await api.post('/user/worker/authenticate', values);
                 login(response.data.authToken.token);
-                return props.history.push('/intranet');
+                return history.replace('/intranet');
             } else {
                 const response = await api.post('/user/authenticate', values);
                 intranetLogin(response.data.authToken.token);
-                return props.history.push('/customer');
+                return history.replace('/customer');
             }
            
         }
@@ -103,4 +108,4 @@ const Login = (props) => {
     )
 }
 
-export default withRouter(Login);
+export default Login;
