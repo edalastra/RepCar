@@ -2,17 +2,23 @@ import React from 'react';
 
 // import { Container } from './styles';
 
-const CardComponent = ({ title, text, action, notes }) => {
+const CardComponent = ({ title, text, action, notes, status }) => {
+  
+  const colors = {
+    pending: 'yellow lighten-3',
+    finished: 'green lighten-2',
+    canceled: 'red lighten-2'
+  }
+
   return (
-    
-      <div class="card blue-grey darken-1">
-        <div class="card-content white-text">
-            <span class="card-title">{title}</span>
+      <div className={`card ${colors[status]}`} >
+        <div className="card-content black-text">
+            <span className="card-title">{title}</span>
             <p>Descrição: {text}</p>
             <hr / >
             <p>Obs: {notes}</p>
         </div>
-        <div class="card-action">
+        <div className="card-action">
           {action}
         </div>
       </div>

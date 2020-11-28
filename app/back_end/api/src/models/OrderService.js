@@ -5,6 +5,7 @@ class OrderService extends Model {
        super.init({
            date: DataTypes.DATEONLY,
            shift: DataTypes.STRING,
+           status: DataTypes.STRING,
        }, {
            sequelize: connection
        }); 
@@ -14,7 +15,7 @@ class OrderService extends Model {
         this.belongsTo(models.Service, { foreignKey: 'service_id', as: 'service' } );
         this.belongsTo(models.Worker, { foreignKey: 'worker_id', as: 'worker' } );
         this.belongsTo(models.Vehicle, { foreignKey: 'vehicle_id', as: 'vehicle' } );
-
+        this.hasMany(models.ServiceItem, { foreignKey: 'order_id',  as: 'order'})
     }
 }
 

@@ -55,7 +55,8 @@ const ServiceController = {
 
              await OrderService.findOrCreate({
                 where: {[Op.and]: [{date}, {shift}, {worker_id: freeWorker[0].id} ]},
-                defaults :  Object.assign(req.body, { worker_id: freeWorker[0].id }),
+                defaults :  Object.assign(...req.body, 
+                    { worker_id: freeWorker[0].id, status: 'pending' }),
                     include: [{
                         model: Service,
                         as: 'service',
