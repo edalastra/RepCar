@@ -48,13 +48,45 @@ const Vehicles = () => {
 
 }
 
+const Services = () => {
+
+  const [orders, setOrders] = useState([])
+
+  useEffect(() => {
+      (async () => {
+          try {
+              const response = await api.get('/user/services');
+              console.log(response.data)
+              setOrders(response.data)
+          } catch (err) {
+              console.log(err)
+          }
+      })()
+  }, [])
+
+  return (
+
+      <>
+          <div class="row">
+              <ul className="collection">
+              {orders.map((order, i) =>
+                   <a  class={`collection-item ${order.status !== 'finished' ? 'active': ''}`}>
+                     <span class="badge">{order.status}
+              </span>{`${order.vehicle.model.brand.name} - ${order.vehicle.model.name}`}</a>
+              )}
+              </ul>
+          </div>
+      </>
+  )
+}
+
 const Customer = () => {
   const routes = [
     {
       path: "/customer",
       exact: true,
       sidebar: () => <div>Serviços</div>,
-      main: () => <div>Os serviços vão aparecer aqui</div>
+      main: Services
     },
     {
       path: "/customer/register-services",

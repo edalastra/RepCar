@@ -7,9 +7,12 @@ import {
   Link,
   withRouter
 } from "react-router-dom";
+import ButtonBackComponent from '../buttonBackComponent'
 
 const SidenavComponent = ({ routes, links}) => {
   return (
+    <>
+    <ButtonBackComponent />
     <Router>
     <div className="row">
         <div className="col-m4">
@@ -59,6 +62,7 @@ const SidenavComponent = ({ routes, links}) => {
     </div>
 
     </Router>
+    </>
   );
 }
 

@@ -7,8 +7,27 @@ const { Op } = require("sequelize");
 
 const ServiceController = {
     async index(req, res) {
-        const services = await ServiceOrder.findAll();
-        return res.json(services);
+        const user_id = req.user.id
+        const orders = await OrderService.findAll({
+            include: [{
+                association: 'vehicle',
+                required: true,
+                where: {owner_id: user_id},
+                include: {
+                    association: 'model',
+                    attributes: ['name'],
+                    include: {
+                        association: 'brand',
+                        attributes: ['name']
+                    }
+                }
+            },
+            {
+                association: 'service',
+                required: true,
+            }]
+        });
+        return res.json(orders);
     },
 
     async assignments(req, res) {
@@ -55,7 +74,7 @@ const ServiceController = {
 
              await OrderService.findOrCreate({
                 where: {[Op.and]: [{date}, {shift}, {worker_id: freeWorker[0].id} ]},
-                defaults :  Object.assign(...req.body, 
+                defaults :  Object.assign(req.body, 
                     { worker_id: freeWorker[0].id, status: 'pending' }),
                     include: [{
                         model: Service,
@@ -74,34 +93,16 @@ const ServiceController = {
      
         
 
-        // await User.findOrCreate({
-        //     where: {cpf,email,},
-        //     defaults :  Object.assign(req.body, { password: hash }),
-        //         include: [{
-        //             model: Address,
-        //             as: 'address',
-        //         }]
-            
-        // }).spread(async (user, created) => {
-        //     if(created) {
-        //       console.log(user)
-        //         const data = await user.authorize();
-        //         res.json({
-        //             status: 'created with success',
-        //             ...data
-        //         });
-        //     } return res.status(400).json({ 
-        //         status: 'error',
-        //         msg: 'This user already registered'
-        //     });
-        // })
-        // } catch(err){
-        //   res.status(500).json({
-        //     status: 'error',
-        //     msg: 'Registration failed',
-        //     error: err,
-        //   });
-        // }
+    },
+
+    async finished(req, res) {
+        const { order_id } = req.params;
+
+        const order = OrderService.update({status: 'finished'}, {
+            where: { id: order_id }
+        });
+
+        return res.json(order);
     }
 }
 

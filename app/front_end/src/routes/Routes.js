@@ -16,7 +16,7 @@ import HeaderComponent from '../components/HeaderComponent/index';
 import FooterComponent from '../components/FooterComponent/index';
 import { isAuthenticated, isWorker } from '../auth';
 import Intranet from '../templates/Intranet';
-
+import './style.css';
 
 const PrivateRoute = ({ component, ...rest }) => {
     return (
@@ -41,8 +41,9 @@ const Routes = () => {
     return(
        
     <Router>
+        <body>
         <HeaderComponent />
-           
+           <main>
         <Switch>
             <Redirect exact from="/" to="/home" />
             <Route path="/home" component={Home} />
@@ -57,8 +58,9 @@ const Routes = () => {
             <IntranetRoute path="/intranet" component={Intranet}/> 
                
         </Switch>
-
+        </main>
         <FooterComponent />
+        </body>
     </Router>
     )
 

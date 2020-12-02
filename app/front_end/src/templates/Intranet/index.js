@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams, useLocation } from 'react-router-dom';
+import { Link, useParams, useLocation, useHistory } from 'react-router-dom';
 import * as format from 'date-format';
 import { useForm } from "react-hook-form";
 import InputComponent from '../../components/InputComponent';
@@ -19,7 +19,11 @@ const Checklist = () => {
     }, [])
 
     const submit = async values => {
-        const response = await apiworker.post(`/service/order/${id}/item/register`, values);
+        const { description, price } = values;
+        const response = await apiworker.post(`/service/order/${id}/item/register`, {
+            description,
+            price: price.replace(',','.')
+        });
         loadItems();
         console.log(items)
         setAlert({
@@ -42,6 +46,14 @@ const Checklist = () => {
         loadItems();
     }
 
+    const setFinished = async () => {
+        const response = await apiworker.get(`/service/order/${id}/finished`);
+        setAlert({
+            status: 'success',
+            msg: 'Serviço concluido'
+        });
+    }
+
     return (<>
 
         <AlertComponent msg={alert.msg} status={alert.status} />
@@ -57,29 +69,36 @@ const Checklist = () => {
                 </div>
                 <div className="col m2">
                     <InputComponent
-                        type="text"
                         label="Preço"
                         name="price"
                         reference={register({ required: 'Digite um valor' })}
+                        type="number" min="1" step="any"
                     />
                 </div>
                 <div className="col m2">
-                    <button type="submit">Adicionar</button>
+                    <button class="waves-effect waves-light btn red darken-1" type="submit">
+                    <i class="material-icons">add</i></button>
                 </div>
             </form>
         </div>
         <div className="row">
             <ul class="collection">
+            <li className="collection-item">
+                <span className="badge">
+                    R${items.reduce((total, item) => total + item.price, 0).toFixed(2)}
+                </span>Total                
+            </li>
                 {items.map((item, index) => (
                     <div>
-                        <a onClick={() => deleteItem(item.id)} ><span>&#10006;</span></a>
-                        <li key={index} href="#!" className="collection-item">
-                            <span className="badge">R${item.price}</span>{item.description}
+                        <li key={index}  className="collection-item">
+                            <a className="waves-effect waves-light" onClick={() => deleteItem(item.id)} ><i class="material-icons left">close</i></a>
+                            <span className="badge">R${item.price.toFixed(2)}</span>{item.description}
+                            
                         </li>
                     </div>
-
                 ))}
             </ul>
+            <a class="waves-effect waves-light btn green darken-3" onClick={setFinished}>Concluir</a>
         </div>
     </>)
 }
@@ -100,11 +119,9 @@ const Services = () => {
         })()
     }, [])
 
-
     return (
 
         <>
-
             <div class="row">
                 {orders.map((order, i) =>
                     <div class="col s12 m4 ">
@@ -112,7 +129,7 @@ const Services = () => {
                             title={`${format('dd/MM', new Date(order.date))} - ${order.shift}`}
                             text={order.service.description}
                             notes={order.service.notes}
-                            action={<Link to={`/intranet/service/checklist/${order.id}`}>Concluir</Link>}
+                            action={<Link to={`/intranet/service/checklist/${order.id}`}>Lista de itens</Link>}
                             status={order.status}
                         />
                     </div>
@@ -172,6 +189,7 @@ const Intranet = () => {
 
     return (
         <>
+
             <SidenavComponent
                 routes={routes}
                 links={links}

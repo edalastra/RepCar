@@ -17,5 +17,7 @@ routes.post('/service/register', ServiceController.store);
 routes.get('/user/vehicles', VehicleController.index)
 routes.get('/vehicle/brands', vehiclesBrandController.index)
 routes.get('/vehicle/brands/:brand_id/models', VehiclesModelController.index);
+routes.get('/user/services', ServiceController.index);
+
 routes.delete('/vehicle/:id/delete', VehicleController.delete)
 module.exports = routes;

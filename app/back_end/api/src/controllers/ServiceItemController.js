@@ -15,6 +15,7 @@ module.exports = {
     async store(req, res) {
         const { order_id } = req.params;
         const { description, price } = req.body;
+        console.log(price)
 
         const item = await ServiceItem.create(
             { description, price, order_id }
