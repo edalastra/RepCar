@@ -2,8 +2,8 @@ const OrderService = require('../models/OrderService');
 const User = require('../models/User');
 const Service = require('../models/Service');
 const Worker = require('../models/Worker')
-const { Op } = require("sequelize");
-
+const { Op, QueryTypes } = require("sequelize");
+const db = require('../database');
 
 const ServiceController = {
     async index(req, res) {
@@ -28,6 +28,19 @@ const ServiceController = {
             }]
         });
         return res.json(orders);
+    },
+
+    async reservedDates(req, res) {
+        const orders = await db.query(
+            `SELECT os.date, os.shift FROM workers w
+            JOIN order_services os ON os.worker_id = w.id
+            WHERE os.status != 'finished'
+            GROUP BY os.date, os.shift
+            HAVING ((SELECT COUNT(*) FROM workers) - COUNT(w.id)) = 0;`, 
+            { type: QueryTypes.SELECT });
+
+        return res.json(orders)
+
     },
 
     async assignments(req, res) {

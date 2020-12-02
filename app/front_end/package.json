@@ -16,6 +16,7 @@
     "materialize-css": "^1.0.0-rc.2",
     "react": "^16.13.0",
     "react-animated-css": "^1.2.1",
+    "react-datepicker": "^3.3.0",
     "react-dom": "^16.13.0",
     "react-form-validator-core": "^0.6.5",
     "react-hook-form": "^6.9.6",

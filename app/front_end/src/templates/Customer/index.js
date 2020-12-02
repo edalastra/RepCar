@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import OrderService from '../ServiceOrder';
 import SidenavComponent from '../../components/SidenavComponent';
 import api from '../../api';
@@ -48,6 +49,46 @@ const Vehicles = () => {
 
 }
 
+const Checklist = () => {
+  const { id } = useParams();
+  const [alert, setAlert] = useState({});
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+      loadItems()
+  }, [])
+
+ const loadItems = async () => {
+      const response = await api.get(`/service/order/${id}/item`);
+      setItems(response.data);
+  }
+
+
+  return (<>
+
+      <AlertComponent msg={alert.msg} status={alert.status} />
+      <div className="row">
+         <h3>Nota de serviço</h3>
+      </div>
+      <div className="row">
+          <ul class="collection">
+          <li className="collection-item">
+              <span className="badge">
+                  R${items.reduce((total, item) => total + item.price, 0).toFixed(2)}
+              </span>Total                
+          </li>
+              {items.map((item, index) => (
+                  <div>
+                      <li key={index}  className="collection-item">
+                          <span className="badge">R${item.price.toFixed(2)}</span>{item.description}                            
+                      </li>
+                  </div>
+              ))}
+          </ul>
+      </div>
+  </>)
+}
+
 const Services = () => {
 
   const [orders, setOrders] = useState([])
@@ -69,10 +110,13 @@ const Services = () => {
       <>
           <div class="row">
               <ul className="collection">
-              {orders.map((order, i) =>
-                   <a  class={`collection-item ${order.status !== 'finished' ? 'active': ''}`}>
+              {orders.map((order, i) => 
+                  <Link to={`/customer/checklist/${order.id}`}>
+                     <a  class={`collection-item ${order.status !== 'finished' ? 'active': ''}`}>
                      <span class="badge">{order.status}
-              </span>{`${order.vehicle.model.brand.name} - ${order.vehicle.model.name}`}</a>
+                      </span>{`${order.vehicle.model.brand.name} - ${order.vehicle.model.name}`}</a>
+                  </Link>
+                  
               )}
               </ul>
           </div>
@@ -87,6 +131,12 @@ const Customer = () => {
       exact: true,
       sidebar: () => <div>Serviços</div>,
       main: Services
+    },
+    {
+      path: "/customer/checklist/:id",
+      exact: true,
+      sidebar: () => <div>Serviços</div>,
+      main: Checklist
     },
     {
       path: "/customer/register-services",

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import M from 'materialize-css'
 import { withRouter } from 'react-router-dom';
 import InputComponent from '../../components/InputComponent';
@@ -12,10 +12,31 @@ import AlertComponent from '../../components/AlertComponent';
 
 
 const Form = ({ submit }) => {
-
+  const [startDate, setStartDate] = useState(new Date());
+  const [reservedDates, setReservedDates] = useState([]);
 
   const { handleSubmit, register, errors, watch } = useForm();
 
+  const datepicker = useRef(null);
+
+  useEffect(() =>{
+    // M.Datepicker.init({
+    //   // disableWeekends: true,
+    //    //disableDayFn: [reservedDates.map((date, index) => date.da)]
+    //  })
+  
+    (async () => {
+      const { data } = api.get('/services/date/reserved');
+      setReservedDates(data);
+    
+    })()
+
+  },[])
+
+  const filterDates = date => {
+    const day =  new Date(date).getDay();
+    return day !== 0 && day !== 6;
+  }
 
   return (
       <div className="card-panel">
@@ -26,31 +47,33 @@ const Form = ({ submit }) => {
            
               <div className="row">
                 <div className="col m6 s12 ">
-                  <InputComponent
+                 <input ref={datepicker} type="text" class="datepicker" />
+
+                  {/* <InputComponent
                     id="date" type="date" name="date"
                     reference={register({ required: "Escolha uma data", 
                       validate: value => new Date(value) >= new Date() || "Escolha uma data a partir de hoje"   
                       })}
                     label="Data" className="validate"
                     errorMessages={errors.date && errors.date.message}
-                  />
+                  /> */}
                 </div>
                 <div className=" col m6 s12 ">
                   <p>
-                    <label>
-                      <input ref={register()} name="shift" value="morning" type="radio" checked />
+                    <label htmlFor="m">
+                      <input ref={register()} id="m" name="shift" value="morning" type="radio" defaultChecked />
                       <span>Manhã</span>
                     </label>
                   </p>
                   <p>
-                    <label>
-                      <input ref={register()} name="shift" value="afternoon" type="radio" />
+                    <label htmlFor="a">
+                      <input ref={register()} id="a" name="shift" value="afternoon" type="radio" />
                       <span>Tarde</span>
                     </label>
                   </p>
                   <p>
-                    <label>
-                      <input ref={register()} name="shift" value="night" type="radio" />
+                    <label htmlFor="n">
+                      <input ref={register()} id="n" name="shift" value="night" type="radio" />
                       <span>Noite</span>
                     </label>
                   </p>
@@ -61,24 +84,27 @@ const Form = ({ submit }) => {
 
 
               <div className="row">
-                <div className="col s12">
-
-                  <InputComponent
-                    name="description" type="text"
-                    className="validate materialize-textarea" label="Descrição do(s) problema(s)"
-
-                    reference={register({ required: "Informe a descrição do problema" })}
-                    errorMessages={errors.description && errors.description.message} />
+              <div class="input-field col s12">
+                <textarea  class="materialize-textarea"
+                  id="description"
+                  name="description" type="text"
+                  className="validate materialize-textarea"
+                  ref={register({ required: "Informe a descrição do problema" })}
+                    errorMessages={errors.description && errors.description.message}
+                ></textarea>
+                <label for="description">Descrição do(s) problemas</label>
                 </div>
               </div>
               <div className="row">
-                <div className="input-field col s12">
-                  <InputComponent  
-                    className="materialize-textarea" 
-                    label="Observações"
-                    name="notes"
-                    reference={register({ required: "Informe a descrição do problema"})}
-                    />
+              <div class="input-field col s12">
+                <textarea  class="materialize-textarea"
+                  id="notes"
+                  type="text"
+                  className="validate materialize-textarea"
+                  name="notes"
+                  ref={register()}
+                ></textarea>
+                <label htmlFor="notes">Observações</label>
                 </div>
               </div>
               <div className="row">
@@ -115,6 +141,7 @@ const VehicleChoice = ({ change }) => {
   }, []);
 
   const { handleSubmit, register, errors, watch } = useForm();
+  
 
   const listVehicles = async () => {
     const { data } = await api.get('/user/vehicles');
@@ -128,6 +155,7 @@ const VehicleChoice = ({ change }) => {
     M.AutoInit();
   }
 
+ 
   const submit = async values => {
     try {
       const response = await api.post('/vehicle/register', { ...values, owner_id: 6 });
@@ -194,7 +222,9 @@ const VehicleChoice = ({ change }) => {
               </div>
               <div className="row">
                 <div className="col m2 s4 ">
-
+ 
+          
+  
                   <InputComponent
                     id="year" type="number"
                     name="year"
@@ -240,7 +270,7 @@ const ServiceOrder = ({ history }) => {
         } 
       });
       console.log(response)
-      history.push('/customer');
+      history.replace('/customer');
     } catch(err){
       console.log(err.response)
       if(err.response.status == 400) setError('Não temos funcionários para lhe atender nesse horário. Escolha outro.')
