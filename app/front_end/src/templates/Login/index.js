@@ -3,7 +3,7 @@ import { Link, useHistory, useLocation } from 'react-router-dom';
 import api from '../../api';
 import { useForm } from "react-hook-form";
 import InputComponent from '../../components/InputComponent';
-import { login, intranetLogin, isAuthenticated, isWorker } from '../../auth';
+import { login, intranetLogin } from '../../auth';
 import './style.css';
 
 const Login = (props) => {
@@ -22,12 +22,14 @@ const Login = (props) => {
         try {
             if(toIntranet){
                 const response = await api.post('/user/worker/authenticate', values);
-                login(response.data.authToken.token);
-                return history.replace('/intranet');
+                const { token } = response.data.authToken;
+                await intranetLogin(token);
+                return history.push('/intranet');
             } else {
                 const response = await api.post('/user/authenticate', values);
-                intranetLogin(response.data.authToken.token);
-                return history.replace('/customer');
+                const { token } = response.data.authToken;
+                await login(token);
+                return history.push('/customer');
             }
            
         }

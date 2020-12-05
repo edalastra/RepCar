@@ -46,12 +46,9 @@ module.exports = {
           type: Sequelize.DATE,
           allowNull: false,
         },
-        type: {
-          type: Sequelize.STRING(10),
-          allowNull: false,
-          validate: {
-            isIn: [['customer', 'worker', 'admin']],
-          },
+        admin: {
+          type: Sequelize.BOOLEAN,
+          default: 'false',
         },
         updated_at: {
           type: Sequelize.DATE,

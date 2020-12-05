@@ -32,10 +32,10 @@ const ServiceController = {
 
     async reservedDates(req, res) {
         const orders = await db.query(
-            `SELECT os.date, os.shift FROM workers w
+            `SELECT os.date FROM workers w
             JOIN order_services os ON os.worker_id = w.id
             WHERE os.status != 'finished'
-            GROUP BY os.date, os.shift
+            GROUP BY os.date
             HAVING ((SELECT COUNT(*) FROM workers) - COUNT(w.id)) = 0;`, 
             { type: QueryTypes.SELECT });
 
@@ -61,14 +61,14 @@ const ServiceController = {
     },
 
     async store(req, res) {
-        const {date, shift} = req.body;
+        const {date } = req.body;
 
         // try {
             
             const workers = await Worker.findAll({
                 include: {
                     association: 'orders', 
-                    where: { [Op.and]: [{date}, {shift}] }
+                    where: { date }
                 }
              });
 
@@ -86,7 +86,7 @@ const ServiceController = {
 
 
              await OrderService.findOrCreate({
-                where: {[Op.and]: [{date}, {shift}, {worker_id: freeWorker[0].id} ]},
+                where: {[Op.and]: [{date}, {worker_id: freeWorker[0].id} ]},
                 defaults :  Object.assign(req.body, 
                     { worker_id: freeWorker[0].id, status: 'pending' }),
                     include: [{

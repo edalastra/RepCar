@@ -8,7 +8,6 @@ module.exports = async function(req, res, next) {
     const authToken = await AuthToken.findOne(
       { where: { token: token }, include: [ { association: 'user' }] }
     );
-    
     if (authToken) {
       req.user = authToken.user;
     }

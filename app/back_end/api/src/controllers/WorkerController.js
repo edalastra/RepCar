@@ -1,16 +1,17 @@
 const Worker = require('../models/Worker');
 const User = require('../models/User');
 const { Address } = require('../models/Address');
+const { Op } = require('sequelize');
 
 module.exports = {
     async index(req, res) {
 
-        const admins = await Worker.findAll({
-            where: {type: 'admin'}
-        },{
-            include: {association: 'user'}
+        const workers = await Worker.findAll({
+            include: {association: 'user',
+            where: {[Op.not]: {id: req.user.id}}
+          }
         });
-        return res.json(admins)
+        return res.json(workers)
 
     },
     async me(req, res) {
@@ -22,11 +23,14 @@ module.exports = {
 
 
         try {    
-          const {cpf, email} = req.body;
+          const {cpf, email, password} = req.body;
+
+          const hash = bcrypt.hashSync(password, 10);
+
   
           await User.findOrCreate({
               where: {cpf,email,},
-              defaults :  req.body,
+              defaults : Object.assign(req.body, { password: hash }),
                   include: [{
                       model: Worker,
                       as: 'worker'

@@ -13,13 +13,6 @@ module.exports = {
           type: Sequelize.DATEONLY,
           allowNull: false,
         },
-        shift: {
-          type: Sequelize.STRING,
-          validate: {
-            isIn: [['morning', 'afternoon', 'night']],
-          },
-          allowNull: true,
-        },
         worker_id: {
           type: Sequelize.INTEGER,
           allowNull: false,

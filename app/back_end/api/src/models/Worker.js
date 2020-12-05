@@ -9,7 +9,7 @@ class Worker extends Model{
             genre: DataTypes.STRING,
             hour_value: DataTypes.DOUBLE,
             admission: DataTypes.DATEONLY,
-            type: DataTypes.STRING,
+            admin: DataTypes.BOOLEAN,
         },{
             sequelize: connection,
         })

@@ -12,6 +12,7 @@ routes.get('/user/worker/me', WorkerController.me);
 routes.get('/services/worker/', ServiceController.assignments);
 routes.get('/service/order/:order_id/item', ServiceItemController.index);
 routes.get('/service/order/:order_id/finished', ServiceController.finished);
+routes.get('/workers', WorkerController.index);
 
 
 routes.post('/service/order/:order_id/item/register', ServiceItemController.store);

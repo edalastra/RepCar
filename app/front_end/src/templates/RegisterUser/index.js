@@ -81,6 +81,7 @@ const RegisterUser =  ({ history }) => {
                                 <div className="row">
                                     <div className=" col m12 s12 ">
                                         <InputComponent
+                                            id="name"
                                             name="name" type="text"
                                             reference={register({required: "Este campo é obrigatório",})}
                                             label="Nome completo" className="validate"
@@ -92,15 +93,15 @@ const RegisterUser =  ({ history }) => {
                                 <div className="row">
                                     <div className="col s12 m6">
                                         <InputComponent
+                                            id="cpf"
                                             name="cpf" type="text"
                                             className="validate" label="CPF"
                                             reference={register({required: "Este campo é obrigatório", 
-                                                validate: value => cpfValidator.isValid(value)
-                                                && uniqueCpf(value) || "CPF já cadastrado"                    
+                                                validate: value => cpfValidator.isValid(value) || "Digite um cpf valido"
+                                                                   
                                                 }
                                             )}
-                                            // onChange={event => setCpf(event.target.value)}
-                                            // value={cpf}
+
                                             errorMessages={errors.cpf && errors.cpf.message}
                                         />
                                         
@@ -108,6 +109,7 @@ const RegisterUser =  ({ history }) => {
                                     </div>
                                     <div className="col s12 m6">
                                         <InputComponent
+                                            id="birth_date"
                                             name="birth_date" type="date"
                                             className="validate" label="Data de nascimento"
                                             reference={register({required: "Este campo é obrigatório" })}
@@ -119,7 +121,7 @@ const RegisterUser =  ({ history }) => {
                                 <div className="row">
                                     <div className="col s12 m6">
                                         <InputComponent
-                                            id="password" name="password" type="text"
+                                            id="password" name="password" type="password"
                                             className="validate" label="Senha"
                                             reference={register({required: "Este campo é obrigatório" })}
                                             errorMessages={errors.password && errors.password.message}
@@ -128,8 +130,9 @@ const RegisterUser =  ({ history }) => {
                                     </div>
                                     <div className="col s12 m6">
                                         <InputComponent
+                                            id="passwordconfirm"
                                             name="passwordconfirm"
-                                            type="text" className="validate" label="Confirme a senha"
+                                            type="password" className="validate" label="Confirme a senha"
                                             reference={register({required: "Este campo é obrigatório", 
                                                 validate: value => value === watch('password') || "As senhas devem ser iguais"
                                             })}
@@ -140,6 +143,7 @@ const RegisterUser =  ({ history }) => {
                                 <div className="row">
                                     <div className="col s12 m6">
                                         <InputComponent
+                                            id="email"
                                             name="email"
                                             type="text" className="validate" label="E-mail"
                                             reference={register({required: "Este campo é obrigatório", 
@@ -168,7 +172,7 @@ const RegisterUser =  ({ history }) => {
                                 </div>
 
                                 <div className="row">
-                                    <div className="col m6 s12">
+                                    <div className="col m3 s12">
 
                                         <InputComponent placeholder="xxxxxxxx" name="zipcode"
                                             id="zipcode" type="text" className="validate"
@@ -177,8 +181,49 @@ const RegisterUser =  ({ history }) => {
                                             errorMessages={errors.zipcode && errors.zipcode.message}
                                         />
                                     </div>
+                                
+                              
+                                    <div className="col m4 s12">
+                                        <InputComponent
+                                            reference={register({required: "Este campo é obrigatório" })}
+                                            placeholder="Ex. Rua são joão" name="street"
+                                            id="street" type="text" className="validate" label="Endereço"
+                                            errorMessages={errors.street && errors.street.message}
+                                        />
+
+                                    </div>
+                                    <div className="col m2 s4">
                                     
-                                    <div>
+                                    <InputComponent id="num" type="number" name="number"
+                                        className="validate" label="Nº"
+                                        reference={register({required: "Este campo é obrigatório" })}
+                                        errorMessages={errors.number && errors.number.message}
+                                    />
+
+                                </div>
+                                <div className="row">
+                                <div className=" col m3 s8">
+                                   
+                                    <InputComponent id="neighborhood" type="text"
+                                        name="neighborhood" className="validate"
+                                        label="Bairro"
+                                        reference={register({required: "Este campo é obrigatório" })}
+                                        errorMessages={errors.neighborhood && errors.neighborhood.message}
+                                    />
+
+                                </div>
+                                <div className=" col m6 s8">
+                                   
+                                   <InputComponent id="complement" type="text"
+                                       name="complement" className="validate"
+                                       label="Complemento"
+                                       placeholder="Ex: Apto 203, Fundos"
+                                       reference={register({required: "Este campo é obrigatório" })}
+                                       errorMessages={errors.neighborhood && errors.neighborhood.message}
+                                   />
+
+                               </div>
+                                   
                                     <div className="col s4 m2">
                                         
 
@@ -197,39 +242,6 @@ const RegisterUser =  ({ history }) => {
                                             {cities.map(c => (<option key={c.id} value={c.id}>{c.name}</option>))}
                                         </select>
                                         <label>Cidade</label>
-                                    </div>
-
-
-                                </div>
-                                <div className="row">
-                                    <div className="col m6 s12">
-                                        <InputComponent
-                                            reference={register({required: "Este campo é obrigatório" })}
-                                            placeholder="Ex. Rua são joão" name="street"
-                                            id="street" type="text" className="validate" label="Endereço"
-                                            errorMessages={errors.street && errors.street.message}
-                                        />
-
-                                    </div>
-                                    <div className="col m2 s4">
-                                    
-                                        <InputComponent id="num" type="number" name="number"
-                                            className="validate" label="Nº"
-                                            reference={register({required: "Este campo é obrigatório" })}
-                                            errorMessages={errors.number && errors.number.message}
-                                        />
-
-                                    </div>
-
-                                    <div className=" col m4 s8">
-                                       
-                                        <InputComponent id="neighborhood" type="text"
-                                            name="neighborhood" className="validate"
-                                            label="Bairro"
-                                            reference={register({required: "Este campo é obrigatório" })}
-                                            errorMessages={errors.neighborhood && errors.neighborhood.message}
-                                        />
-
                                     </div>
                                 </div>
                                 </div>

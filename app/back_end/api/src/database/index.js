@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const dbconfig = require('../config/database');
-
 const { Vehicle, VehicleModel, VehicleBrand }  = require('../models/Vehicle');
 const { Address, City, State } = require('../models/Address');
 const User = require('../models/User');
@@ -41,5 +40,10 @@ Service.associate(connection.models);
 OrderService.associate(connection.models);
 Worker.associate(connection.models);
 ServiceItem.associate(connection.models);
+
+
+
+
+
 
 module.exports = connection;

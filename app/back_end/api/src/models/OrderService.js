@@ -4,7 +4,6 @@ class OrderService extends Model {
     static init(connection) {
        super.init({
            date: DataTypes.DATEONLY,
-           shift: DataTypes.STRING,
            status: DataTypes.STRING,
        }, {
            sequelize: connection

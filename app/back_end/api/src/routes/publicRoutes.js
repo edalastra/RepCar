@@ -8,7 +8,7 @@ const AdminController = require('../controllers/AdminController');
 const auth = require('../middleware/auth');
 const routes = express.Router();
 
-routes.get('/user', UserController.index);
+routes.get('/users', UserController.index);
 routes.get('/state', StateController.index);
 routes.get('/state/:state_id/city', CityController.index);
 routes.get('/city/:query', CityController.index);

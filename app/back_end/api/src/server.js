@@ -5,6 +5,7 @@ const adminRoutes = require('./routes/adminRoutes');
 const workerRoutes = require('./routes/workerRoutes');
 
 require('./database');
+require('./database/insertAdmin');
 
 app.use(publicRoutes);
 app.use(privateRoutes);
