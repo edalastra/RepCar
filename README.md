@@ -7,7 +7,7 @@ A aplicação tem como objetivo atender os clientes, funcionáros e gestores da 
 - 	Painel de funcionário contendo serviços designados a ele
 - 	Controle de serviço com opções de marcar o incio e o fim, recursos ultilizados (peças e ferramentas) geração de nota de serviço.
 
-### Tecnologias ultilizadas
+### Tecnologias utilizadas
 
 - React JS
 - Node JS
